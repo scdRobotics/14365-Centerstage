@@ -6,6 +6,12 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.util.BNO055IMUUtil;
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import org.firstinspires.ftc.teamcode.util.AxisDirection;
+import com.qualcomm.robotcore.hardware.Servo;
+
+
 
 public class Robot{
     /*
@@ -17,6 +23,11 @@ public class Robot{
     private final Telemetry telemetry;
 
     public SampleMecanumDrive drive;
+    public Servo backOdo;
+    public Servo rightOdo;
+    public Servo leftOdo;
+    public BNO055IMU imu;
+
 
 
     /*
@@ -45,8 +56,18 @@ public class Robot{
         Setup Subsystem Objects
          */
 
+
         drive = new SampleMecanumDrive(hardwareMap);
 
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
+        imu.initialize(parameters);
+        BNO055IMUUtil.remapZAxis(imu, AxisDirection.NEG_X);
+
+        backOdo = hardwareMap.get(Servo.class, "backOdo");
+        leftOdo = hardwareMap.get(Servo.class, "leftOdo");
+        rightOdo = hardwareMap.get(Servo.class, "rightOdo");
 
     }
 
