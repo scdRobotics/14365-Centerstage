@@ -15,6 +15,7 @@ public class Robot{
     private final LinearOpMode opMode;
     private final HardwareMap hardwareMap;
     private final Telemetry telemetry;
+    public Delivery delivery;
 
     public SampleMecanumDrive drive;
 
