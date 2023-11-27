@@ -15,6 +15,7 @@ public class Robot{
     private final LinearOpMode opMode;
     private final HardwareMap hardwareMap;
     private final Telemetry telemetry;
+    public LinearSlide linearSlide;
 
     public SampleMecanumDrive drive;
 
@@ -48,6 +49,7 @@ public class Robot{
         drive = new SampleMecanumDrive(hardwareMap);
 
 
+        linearSlide = new LinearSlide(telemetry, hardwareMap, timer);
     }
 
     /*

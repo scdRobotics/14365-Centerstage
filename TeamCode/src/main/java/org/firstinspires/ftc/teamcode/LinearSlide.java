@@ -5,8 +5,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
-public class linearSlide extends Subsystem{
-    public linearSlide(Telemetry telemetry, HardwareMap hardwareMap, ElapsedTime timer) {
+public class LinearSlide extends Subsystem{
+    public LinearSlide(Telemetry telemetry, HardwareMap hardwareMap, ElapsedTime timer) {
         super(telemetry, hardwareMap, timer);
     }
 }
