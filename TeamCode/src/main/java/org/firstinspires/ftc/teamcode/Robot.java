@@ -15,10 +15,9 @@ public class Robot{
     private final LinearOpMode opMode;
     private final HardwareMap hardwareMap;
     private final Telemetry telemetry;
-    public Delivery delivery;
 
     public SampleMecanumDrive drive;
-
+    public Delivery delivery;
 
     /*
     Constructor w/ important data to bring in from operational programs
@@ -48,6 +47,7 @@ public class Robot{
 
         drive = new SampleMecanumDrive(hardwareMap);
 
+        delivery = new Delivery(telemetry, hardwareMap, timer);
 
     }
 
