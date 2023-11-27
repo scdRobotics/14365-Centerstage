@@ -17,6 +17,7 @@ public class Robot{
     private final Telemetry telemetry;
 
     public SampleMecanumDrive drive;
+    public Odometry odometry;
 
 
     /*
@@ -47,6 +48,7 @@ public class Robot{
 
         drive = new SampleMecanumDrive(hardwareMap);
 
+        odometry = new Odometry(telemetry, hardwareMap, timer);
 
     }
 
