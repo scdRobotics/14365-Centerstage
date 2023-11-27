@@ -6,6 +6,18 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
+import com.qualcomm.robotcore.hardware.Servo;
+import org.firstinspires.ftc.teamcode.util.BNO055IMUUtil;
+import org.firstinspires.ftc.teamcode.util.AxisDirection;
+
+
+
+
+
+
 
 public class Robot{
     /*
@@ -17,7 +29,15 @@ public class Robot{
     private final Telemetry telemetry;
 
     public SampleMecanumDrive drive;
-    public Odometry odometry;
+    public Sensors sensors;
+    public BNO055IMU imu;
+    public DistanceSensor front;
+    public RevBlinkinLedDriver led;
+
+    public Servo backOdo;
+    public Servo rightOdo;
+    public Servo leftOdo;
+
 
 
     /*
@@ -48,7 +68,31 @@ public class Robot{
 
         drive = new SampleMecanumDrive(hardwareMap);
 
-        odometry = new Odometry(telemetry, hardwareMap, timer);
+        front = hardwareMap.get(DistanceSensor.class, "front");
+        /*leftFront = hardwareMap.get(DistanceSensor.class, "leftFront");
+        rightFront = hardwareMap.get(DistanceSensor.class, "rightFront");
+        leftBack = hardwareMap.get(DistanceSensor.class, "leftBack");
+        rightBack = hardwareMap.get(DistanceSensor.class, "rightBack");*/
+
+        led = hardwareMap.get(RevBlinkinLedDriver.class, "led");
+
+
+
+
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
+        imu.initialize(parameters);
+        BNO055IMUUtil.remapZAxis(imu, AxisDirection.NEG_X);
+
+
+
+        backOdo = hardwareMap.get(Servo.class, "backOdo");
+        leftOdo = hardwareMap.get(Servo.class, "leftOdo");
+        rightOdo = hardwareMap.get(Servo.class, "rightOdo");
+
+
+        sensors = new Sensors(imu, front, led, backOdo, leftOdo, rightOdo, telemetry, hardwareMap, timer);
 
     }
 
