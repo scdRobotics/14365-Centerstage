@@ -1,11 +1,14 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+import com.qualcomm.robotcore.hardware.Servo;
+
 
 public class Robot{
     /*
@@ -18,6 +21,9 @@ public class Robot{
 
     public SampleMecanumDrive drive;
     public Delivery delivery;
+    public Intake intake;
+    public Servo drop;
+    public DcMotorEx wheels;
 
     /*
     Constructor w/ important data to bring in from operational programs
@@ -47,7 +53,9 @@ public class Robot{
 
         drive = new SampleMecanumDrive(hardwareMap);
 
-        delivery = new Delivery(telemetry, hardwareMap, timer);
+        delivery = new Delivery(telemetry, hardwareMap, timer, drop);
+
+        intake = new Intake(telemetry, hardwareMap, timer, wheels);
 
     }
 
