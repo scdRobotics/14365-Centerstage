@@ -31,7 +31,8 @@ public class Robot{
     public SampleMecanumDrive drive;
     public Sensors sensors;
     public BNO055IMU imu;
-    public DistanceSensor front;
+    public DistanceSensor right;
+    public DistanceSensor left;
     public RevBlinkinLedDriver led;
 
     public Servo backOdo;
@@ -68,7 +69,8 @@ public class Robot{
 
         drive = new SampleMecanumDrive(hardwareMap);
 
-        front = hardwareMap.get(DistanceSensor.class, "front");
+        right = hardwareMap.get(DistanceSensor.class, "right");
+        left = hardwareMap.get(DistanceSensor.class, "left");
         /*leftFront = hardwareMap.get(DistanceSensor.class, "leftFront");
         rightFront = hardwareMap.get(DistanceSensor.class, "rightFront");
         leftBack = hardwareMap.get(DistanceSensor.class, "leftBack");
@@ -92,7 +94,7 @@ public class Robot{
         rightOdo = hardwareMap.get(Servo.class, "rightOdo");
 
 
-        sensors = new Sensors(imu, front, led, backOdo, leftOdo, rightOdo, telemetry, hardwareMap, timer);
+        sensors = new Sensors(imu, right, left, led, backOdo, leftOdo, rightOdo, telemetry, hardwareMap, timer);
 
     }
 
