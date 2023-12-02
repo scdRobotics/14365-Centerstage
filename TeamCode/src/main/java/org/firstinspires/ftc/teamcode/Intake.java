@@ -15,6 +15,9 @@ public class Intake extends Subsystem{
         this.wheels = wheels;
     }
 
-
+    public void runIntake(int power)
+    {
+        wheels.setPower(power);
+    }
 
 }
