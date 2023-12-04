@@ -9,9 +9,12 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 public class Vision extends Subsystem{
     public Vision(Telemetry telemetry, HardwareMap hardwareMap, ElapsedTime timer) {
+        //declare camera
         public OpenCvCamera webcam1;
 
-        public void activateYellowPieplineGamera1(){
+        Pipeline pipeline = new Pipeline();
+
+        /*public void activateYellowPieplineGamera1(){
             //webcam1.setPipeline
 
              public void onOpened(){
@@ -20,7 +23,7 @@ public class Vision extends Subsystem{
                  telemetry.update();
             }
 
-        }
+        }*/
 
         super(telemetry, hardwareMap, timer);
     }
