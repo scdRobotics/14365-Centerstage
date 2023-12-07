@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+import org.openftc.easyopencv.OpenCvCamera;
 
 public class Robot{
     /*
@@ -18,6 +19,8 @@ public class Robot{
 
     public SampleMecanumDrive drive;
 
+    public OpenCvCamera webcam1;
+    public Vision vision;
 
     /*
     Constructor w/ important data to bring in from operational programs
@@ -47,6 +50,7 @@ public class Robot{
 
         drive = new SampleMecanumDrive(hardwareMap);
 
+        vision = new Vision(webcam1, telemetry, hardwareMap, timer);
 
     }
 
