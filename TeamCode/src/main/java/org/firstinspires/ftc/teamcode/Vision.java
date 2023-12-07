@@ -8,15 +8,17 @@ import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
 public class Vision extends Subsystem{
+    //declare camera
+    public OpenCvCamera webcam1;
+
     public Vision(Telemetry telemetry, HardwareMap hardwareMap, ElapsedTime timer) {
-        //declare camera
-        public OpenCvCamera webcam1;
+
 
         Pipeline pipeline = new Pipeline(1, 578.272, 578.272, 402.145, 221.506);//since we have new cameras, the parameters are subject to change
 
         public Vision(OpenCvCamera webcam1, Telemetry telemetry, HardwareMap hardwareMap, ElapsedTime timer){
-                    super(telemetry, hardwareMap, timer);
-                    this.webcam2 = webcam1;
+                    //super(telemetry, hardwareMap, timer);
+                    this.webcam1 = webcam1;
 
         }
 
