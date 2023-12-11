@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -18,6 +20,8 @@ public class Robot{
 
     public LinearSlide linearSlide;
     public SampleMecanumDrive drive;
+    public DcMotorEx slide1;
+    public DcMotorEx slide2;
 
 
     /*
@@ -47,9 +51,15 @@ public class Robot{
          */
 
         drive = new SampleMecanumDrive(hardwareMap);
+        slide1=hardwareMap.get(DcMotorEx.class,"slide1");
+        slide2=hardwareMap.get(DcMotorEx.class,"slide2");
+        slide1.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        slide2.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+
+        linearSlide = new LinearSlide(telemetry, hardwareMap, timer, slide1, slide2);
 
 
-        linearSlide = new LinearSlide(telemetry, hardwareMap, timer);
+
     }
 
     /*
