@@ -17,7 +17,13 @@ public class Robot{
     private final HardwareMap hardwareMap;
     private final Telemetry telemetry;
 
+
+
     public SampleMecanumDrive drive;
+
+    /*
+    Subsystem declaration
+     */
 
     public OpenCvCamera webcam1;
     public Vision vision;

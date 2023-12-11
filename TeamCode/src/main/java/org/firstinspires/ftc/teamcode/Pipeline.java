@@ -6,8 +6,11 @@ import org.openftc.easyopencv.OpenCvPipeline;
 import org.openftc.apriltag.AprilTagDetectorJNI;
 public class Pipeline extends OpenCvPipeline {
 
+    //
     Mat cameraMatrix;
 
+
+    //parameters for Camera Matrix
     double fx;
     double fy;
     double cx;
@@ -25,8 +28,6 @@ public class Pipeline extends OpenCvPipeline {
     public Pipeline(double tagsize, double fx, double fy, double cx, double cy)
     {
 
-
-
         this.tagsize = tagsize;
         this.tagsizeX = tagsize;
         this.tagsizeY = tagsize;
@@ -34,8 +35,6 @@ public class Pipeline extends OpenCvPipeline {
         this.fy = fy;
         this.cx = cx;
         this.cy = cy;
-
-
 
         constructMatrix();
 
@@ -46,6 +45,7 @@ public class Pipeline extends OpenCvPipeline {
         this.runAprilTag=runAprilTag;
     }
     void constructMatrix(){
+        //        Construct the Camera Matrix
         cameraMatrix = new Mat(3,3, CvType.CV_32FC1);
 
         cameraMatrix.put(0,0, fx);
