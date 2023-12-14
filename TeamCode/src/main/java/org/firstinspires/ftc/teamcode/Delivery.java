@@ -13,6 +13,11 @@ public class Delivery extends Subsystem{
         super(telemetry, hardwareMap, timer);
         this.drop = drop;
     }
+
+    public void runDrop(double pos){
+        drop.setPosition(pos);
+    }
+
     public void dropPixel() {
         drop.setPosition(1);
     }
