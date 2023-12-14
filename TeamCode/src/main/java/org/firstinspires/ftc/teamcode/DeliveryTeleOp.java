@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
-public class DeliveryTeleop {
+
     @TeleOp(name = "DeliveryTeleOp", group = "TeleOp")
     public class DeliveryTeleOp extends LinearOpMode {
 
@@ -18,27 +18,26 @@ public class DeliveryTeleop {
 
             waitForStart();
 
-            if(!gamepad2.b){
-                bButtonHeld = false;
-            }
+            while (!isStopRequested()) {
 
-            else if(gamepad2.b && !bButtonHeld){
-                bButtonHeld=true;
-            }
+                if (!gamepad2.b) {
+                    bButtonHeld = false;
+                } else if (gamepad2.b && !bButtonHeld) {
+                    bButtonHeld = true;
+                }
 
-            if(gamepad2.a){
-                robot.delivery.runDrop(0.225);
-            }
-            else{
-                robot.delivery.runDrop(0);
-            }
+                if (gamepad2.a) {
+                    robot.delivery.runDrop(1);
+                } else {
+                    robot.delivery.runDrop(0);
+                }
 
-            if(bButtonHeld){
-                robot.intake.runIntake(1);
-            }
-            else{
-                robot.intake.runIntake(0);
+                if (bButtonHeld) {
+                    robot.intake.runIntake(1);
+                } else {
+                    robot.intake.runIntake(0);
+                }
             }
         }
-    }
+
 }
