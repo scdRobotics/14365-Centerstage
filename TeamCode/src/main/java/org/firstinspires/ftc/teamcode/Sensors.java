@@ -58,20 +58,6 @@ public class Sensors extends Subsystem{
         IMU_OFFSET = i;
     }
 
-    public void deployOdo(){
-        backOdo.setPosition(1);
-        rightOdo.setPosition(0);
-        leftOdo.setPosition(1);
-    }
-
-    public void retractOdo(){
-        backOdo.setPosition(0);
-        rightOdo.setPosition(0.5);
-        leftOdo.setPosition(0);
-    }
-
-
-
     public void updateLEDs(){
         switch(current){
 
