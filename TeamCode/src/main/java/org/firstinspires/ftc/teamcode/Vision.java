@@ -9,30 +9,51 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 public class Vision extends Subsystem{
     //declare camera
-    public OpenCvCamera webcam1;
+    public OpenCvCamera webcam;
 
     public Vision(Telemetry telemetry, HardwareMap hardwareMap, ElapsedTime timer) {
 
 
         Pipeline pipeline = new Pipeline(1, 578.272, 578.272, 402.145, 221.506);//since we have new cameras, the parameters are subject to change
 
-        public Vision(OpenCvCamera webcam1, Telemetry telemetry, HardwareMap hardwareMap, ElapsedTime timer){
+        //Constructor (Done)
+        public Vision(OpenCvCamera webcam, Telemetry telemetry, HardwareMap hardwareMap, ElapsedTime timer){
                 super(telemetry, hardwareMap, timer);
-                this.webcam1 = webcam1;
-
+                this.webcam = webcam;
         }
 
 
-        /*public void activateYellowPieplineGamera1(){
+        /*public void activateYellowPipelineCamera(){
             //webcam1.setPipeline
 
              public void onOpened(){
-                 webcam1.startStreaming(1280,720);
+                 webcam.startStreaming(1280,720);
                  telemetry.addData("Camera Opened! ", "");
                  telemetry.update();
             }
 
         }*/
+
+        public void activateYellowPipelineCamera(){ 
+            webcam.setPipeline(Pipeline);
+            webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
+            {
+                @Override
+                public void onOpened()
+                {
+                    webcam.startStreaming(1280,720, OpenCvCameraRotation.UPRIGHT);
+                    telemetry.addData("Camera Opened! ", "");
+                    telemetry.update();
+                }
+
+                @Override
+                public void onError(int errorCode)
+                {
+
+                }
+            });
+        }
+
 
         super(telemetry, hardwareMap, timer);
     }
