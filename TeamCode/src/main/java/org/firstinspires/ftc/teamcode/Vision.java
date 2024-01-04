@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraRotation;
-
+/*
 public class Vision extends Subsystem{
     //declare camera
     public OpenCvCamera webcam;
@@ -33,8 +33,8 @@ public class Vision extends Subsystem{
             }
 
         }*/
-
-        public void activateYellowPipelineCamera(){ 
+/*
+        public void activateYellowPipelineCamera(){
             webcam.setPipeline(Pipeline);
             webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
             {
@@ -57,4 +57,4 @@ public class Vision extends Subsystem{
 
         super(telemetry, hardwareMap, timer);
     }
-}
+}*/

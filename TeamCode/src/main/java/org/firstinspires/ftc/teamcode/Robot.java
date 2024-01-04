@@ -26,7 +26,7 @@ public class Robot{
      */
 
     public OpenCvCamera webcam1;
-    public Vision vision;
+    //public Vision vision;
 
     /*
     Constructor w/ important data to bring in from operational programs
@@ -56,7 +56,7 @@ public class Robot{
 
         drive = new SampleMecanumDrive(hardwareMap);
 
-        vision = new Vision(webcam1, telemetry, hardwareMap, timer);
+        //vision = new Vision(webcam1, telemetry, hardwareMap, timer);
 
     }
 
