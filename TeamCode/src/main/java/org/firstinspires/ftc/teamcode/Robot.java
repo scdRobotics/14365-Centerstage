@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -23,10 +24,10 @@ public class Robot{
     private final Telemetry telemetry;
 
     public SampleMecanumDrive drive;
-    public Servo backOdo;
-    public Servo rightOdo;
-    public Servo leftOdo;
-    public BNO055IMU imu;
+
+    public ColorSensor pixelSense;
+
+    public Sensors sensors;
 
 
 
@@ -49,6 +50,7 @@ public class Robot{
         HardwareMap
          */
 
+        pixelSense = hardwareMap.get(ColorSensor.class, "pixelSense");
 
 
 
@@ -57,17 +59,11 @@ public class Robot{
          */
 
 
-        drive = new SampleMecanumDrive(hardwareMap);
+        //drive = new SampleMecanumDrive(hardwareMap);
 
-        imu = hardwareMap.get(BNO055IMU.class, "imu");
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
-        imu.initialize(parameters);
-        BNO055IMUUtil.remapZAxis(imu, AxisDirection.NEG_X);
+        Sensors sensors = new Sensors(pixelSense, telemetry, hardwareMap, timer);
 
-        backOdo = hardwareMap.get(Servo.class, "backOdo");
-        leftOdo = hardwareMap.get(Servo.class, "leftOdo");
-        rightOdo = hardwareMap.get(Servo.class, "rightOdo");
+
 
     }
 

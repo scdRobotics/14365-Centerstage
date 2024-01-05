@@ -17,7 +17,16 @@ public class Sample_Auto extends AUTO_PRIME {
         Operational Program! :D
          */
         robot.telemetry("Program running!", "");
-        robot.pause(5);
+
+
+        while(!isStopRequested()){
+            telemetry.addData("Alpha Readout: ", robot.sensors.returnAlphaReadout());
+            telemetry.addData("Blue Readout: ", robot.sensors.returnBlueReadout());
+            telemetry.addData("Red Readout: ", robot.sensors.returnRedReadout());
+            telemetry.addData("Green Readout: ", robot.sensors.returnGreenReadout());
+            telemetry.addData("Purple Readout: ", robot.sensors.returnPurpleReadout());
+            telemetry.update();
+        }
     }
 
 }
