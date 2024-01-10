@@ -20,10 +20,16 @@ public class LinearSlide extends Subsystem{
         this.slide2=slide2;
     }
 
-    public void runSlide(int pos, double power){
+    public void runSlide1(int pos, double power){
         slide1.setTargetPosition(pos);
         slide1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         slide1.setPower(power);
+    }
+
+    public void runSlide2(int pos, double power) {
+        slide2.setTargetPosition(pos);
+        slide2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        slide2.setPower(power);
     }
 
     public int slideIdxToEncoderVal(int idx){

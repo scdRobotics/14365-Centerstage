@@ -52,7 +52,7 @@ public class LinearSlideTeleop extends LinearOpMode {
             }
 
 
-            robot.linearSlide.runSlide((int) (slidePos), 0.9);
+            robot.linearSlide.runSlide1((int) (slidePos), 0.9);
         }
 
     }
