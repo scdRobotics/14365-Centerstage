@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -25,8 +26,8 @@ public class Robot{
     public DcMotorEx frontRightM; //Front Right Drive Motor initial declaration
     public DcMotorEx backLeftM; //Back Left Drive Motor initial declaration
     public DcMotorEx backRightM; //Back Right Drive Motor initial declaration
-
-
+    public Servo airplane;
+    public plane plane;
     /*
     Constructor w/ important data to bring in from operational programs
      */
@@ -37,7 +38,6 @@ public class Robot{
         this.telemetry = telemetry;
         this.init(isTeleOp);
     }
-
     /*
     Initialize Robot objects
      */
@@ -50,7 +50,6 @@ public class Robot{
             frontLeftM = hardwareMap.get(DcMotorEx.class, "frontLeft");
             backLeftM = hardwareMap.get(DcMotorEx.class, "backLeft");
             backRightM = hardwareMap.get(DcMotorEx.class, "backRight");
-            airplane = hardwareMap.get(Servo)
 
             frontLeftM.setDirection(DcMotorSimple.Direction.REVERSE);
             backLeftM.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -76,6 +75,8 @@ public class Robot{
             drive = new SampleMecanumDrive(hardwareMap);
         }
 
+        airplane = hardwareMap.get(Servo.class,"airplane");
+        plane = new plane(airplane, telemetry, hardwareMap, timer);
 
     }
 
