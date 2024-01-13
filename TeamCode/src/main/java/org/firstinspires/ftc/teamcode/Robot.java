@@ -50,6 +50,7 @@ public class Robot{
             frontLeftM = hardwareMap.get(DcMotorEx.class, "frontLeft");
             backLeftM = hardwareMap.get(DcMotorEx.class, "backLeft");
             backRightM = hardwareMap.get(DcMotorEx.class, "backRight");
+            airplane = hardwareMap.get(Servo)
 
             frontLeftM.setDirection(DcMotorSimple.Direction.REVERSE);
             backLeftM.setDirection(DcMotorSimple.Direction.REVERSE);
