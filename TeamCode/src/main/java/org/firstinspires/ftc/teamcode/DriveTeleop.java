@@ -48,12 +48,6 @@ public class DriveTeleop extends LinearOpMode{
                 robot.backLeftM.setPower(0);
                 robot.backRightM.setPower(0);
             }
-            if(gamepad1.b) {
-                robot.plane.runPlane(0);
-            } else{
-                robot.plane.runPlane(0.1);
-            }
-
 
         }
 

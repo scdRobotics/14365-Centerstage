@@ -40,7 +40,6 @@ public class Robot{
     public DcMotorEx backLeftM; //Back Left Drive Motor initial declaration
     public DcMotorEx backRightM; //Back Right Drive Motor initial declaration
     public Servo airplane;
-    public plane plane;
     /*
     Constructor w/ important data to bring in from operational programs
      */
@@ -102,7 +101,7 @@ public class Robot{
         }
 
         airplane = hardwareMap.get(Servo.class,"airplane");
-        plane = new plane(airplane, telemetry, hardwareMap, timer);
+
 
     }
 
