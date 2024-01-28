@@ -17,7 +17,6 @@ public class Sample_Auto extends AUTO_PRIME {
         Operational Program! :D
          */
         robot.telemetry("Program running!", "");
-        robot.pause(5);
     }
 
 }

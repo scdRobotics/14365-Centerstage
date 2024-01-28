@@ -37,7 +37,7 @@ public class StandardTrackingWheelLocalizer extends ThreeTrackingWheelLocalizer 
     public static double X_MULTIPLIER = 1.00554105; // Multiplier in the X direction
     public static double Y_MULTIPLIER = 0.983468625; // Multiplier in the Y direction
 
-    private Encoder leftEncoder, rightEncoder, frontEncoder;
+    private Encoder leftOdo, rightOdo, frontOdo;
 
     public StandardTrackingWheelLocalizer(HardwareMap hardwareMap) {
         super(Arrays.asList(
@@ -46,9 +46,9 @@ public class StandardTrackingWheelLocalizer extends ThreeTrackingWheelLocalizer 
                 new Pose2d(FORWARD_OFFSET, 0, Math.toRadians(90)) // front
         ));
 
-        leftEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "leftEncoder"));
-        rightEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "rightEncoder"));
-        frontEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "frontEncoder"));
+        leftOdo = new Encoder(hardwareMap.get(DcMotorEx.class, "leftOdo"));
+        rightOdo = new Encoder(hardwareMap.get(DcMotorEx.class, "rightOdo"));
+        frontOdo = new Encoder(hardwareMap.get(DcMotorEx.class, "frontOdo"));
 
         // TODO: reverse any encoders using Encoder.setDirection(Encoder.Direction.REVERSE)
 
@@ -65,9 +65,9 @@ public class StandardTrackingWheelLocalizer extends ThreeTrackingWheelLocalizer 
     @Override
     public List<Double> getWheelPositions() {
         return Arrays.asList(
-                encoderTicksToInches(leftEncoder.getCurrentPosition()) * X_MULTIPLIER,
-                encoderTicksToInches(rightEncoder.getCurrentPosition()) * X_MULTIPLIER,
-                encoderTicksToInches(frontEncoder.getCurrentPosition()) * Y_MULTIPLIER
+                encoderTicksToInches(leftOdo.getCurrentPosition()) * X_MULTIPLIER,
+                encoderTicksToInches(rightOdo.getCurrentPosition()) * X_MULTIPLIER,
+                encoderTicksToInches(frontOdo.getCurrentPosition()) * Y_MULTIPLIER
         );
     }
 
@@ -79,9 +79,9 @@ public class StandardTrackingWheelLocalizer extends ThreeTrackingWheelLocalizer 
         //  compensation method
 
         return Arrays.asList(
-                encoderTicksToInches(leftEncoder.getCorrectedVelocity()) * X_MULTIPLIER,
-                encoderTicksToInches(rightEncoder.getCorrectedVelocity()) * X_MULTIPLIER,
-                encoderTicksToInches(frontEncoder.getCorrectedVelocity()) * Y_MULTIPLIER
+                encoderTicksToInches(leftOdo.getCorrectedVelocity()) * X_MULTIPLIER,
+                encoderTicksToInches(rightOdo.getCorrectedVelocity()) * X_MULTIPLIER,
+                encoderTicksToInches(frontOdo.getCorrectedVelocity()) * Y_MULTIPLIER
         );
     }
 }

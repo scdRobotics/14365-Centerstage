@@ -31,7 +31,7 @@ public class DriveConstants {
      * If using the built-in motor velocity PID, update MOTOR_VELO_PID with the tuned coefficients
      * from DriveVelocityPIDTuner.
      */
-    public static final boolean RUN_USING_ENCODER = false;
+    public static final boolean RUN_USING_ENCODER = true;
     public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(29, 0, 20,
             26);
 
@@ -43,9 +43,9 @@ public class DriveConstants {
      * angular distances although most angular parameters are wrapped in Math.toRadians() for
      * convenience. Make sure to exclude any gear ratio included in MOTOR_CONFIG from GEAR_RATIO.
      */
-    public static double WHEEL_RADIUS = 3.34; // in
+    public static double WHEEL_RADIUS = 1.47; // in
     public static double GEAR_RATIO = 1; // output (wheel) speed / input (motor) speed
-    public static double TRACK_WIDTH = 11.75; // in
+    public static double TRACK_WIDTH = 24.44; // in 11.75 15.81
     //Traingularly: 18.89155 in
     //Horizontally: 13.552463 in
 
@@ -70,7 +70,7 @@ public class DriveConstants {
     //TODO: Find out how much we can increase these by >:) (SAFELY, of course)
     public static double MAX_VEL = 45; //70
     public static double MAX_ACCEL = 25; //40
-    public static double MAX_ANG_VEL = Math.toRadians(200); //300
+    public static double MAX_ANG_VEL = Math.toRadians(43); //200
     public static double MAX_ANG_ACCEL = Math.toRadians(30); //60
 
 
