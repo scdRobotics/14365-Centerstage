@@ -1,7 +1,11 @@
 package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 @TeleOp(name = "DeliveryTeleOp", group = "TeleOp")
 public class DriveTeleop extends LinearOpMode{
@@ -80,4 +84,19 @@ public class DriveTeleop extends LinearOpMode{
 
 
         }
+
+    public static class Intake extends Subsystem{
+        private final DcMotorEx wheels;
+        public Intake(Telemetry telemetry, HardwareMap hardwareMap, ElapsedTime timer, DcMotorEx wheels) {
+            super(telemetry, hardwareMap, timer);
+            this.wheels = wheels;
+        }
+
+        public void runIntake(double power)
+        {
+            wheels.setPower(power);
+        }
+        //test
+
     }
+}

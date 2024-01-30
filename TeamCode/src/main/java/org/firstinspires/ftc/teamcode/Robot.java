@@ -31,12 +31,31 @@ public class Robot{
     public BNO055IMU imu;
 
 
+    /*
+    From delivery branch
+     */
+    public Delivery delivery;
+    public Intake intake;
+    public Servo drop;
+    public DcMotorEx wheels;
+
+    /*
+    From linear slide branch
+     */
+    public LinearSlide linearSlide;
+    public DcMotorEx slide1;
+    public DcMotorEx slide2;
+
+
+
 
     public DcMotorEx frontLeftM; //Front Left Drive Motor initial declaration
     public DcMotorEx frontRightM; //Front Right Drive Motor initial declaration
     public DcMotorEx backLeftM; //Back Left Drive Motor initial declaration
     public DcMotorEx backRightM; //Back Right Drive Motor initial declaration
     public Servo airplane;
+
+
     /*
     Constructor w/ important data to bring in from operational programs
      */
@@ -93,6 +112,15 @@ public class Robot{
 
         drive = new SampleMecanumDrive(hardwareMap);
         }
+
+        slide1=hardwareMap.get(DcMotorEx.class,"slide1");
+        slide2=hardwareMap.get(DcMotorEx.class,"slide2");
+        slide1.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        slide2.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+
+        linearSlide = new LinearSlide(telemetry, hardwareMap, timer, slide1, slide2);
+
+        intake = new Intake(telemetry, hardwareMap, timer, wheels);
 
         airplane = hardwareMap.get(Servo.class,"airplane");
 
