@@ -43,8 +43,7 @@ public class Robot{
     From linear slide branch
      */
     public LinearSlide linearSlide;
-    public DcMotorEx slide1;
-    public DcMotorEx slide2;
+    public DcMotorEx slide;
 
 
 
@@ -70,10 +69,8 @@ public class Robot{
     Initialize Robot objects
      */
     private void init(boolean isTeleOp){
-        /*
-        HardwareMap
-            */
         if(isTeleOp) {
+
             frontRightM = hardwareMap.get(DcMotorEx.class, "frontRight");
             frontLeftM = hardwareMap.get(DcMotorEx.class, "frontLeft");
             backLeftM = hardwareMap.get(DcMotorEx.class, "backLeft");
@@ -92,15 +89,7 @@ public class Robot{
             backLeftM.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             backRightM.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-
-
-
-        /*
-        Setup Subsystem Objects
-         */
         } else {
-
-
 
         drive = new SampleMecanumDrive(hardwareMap);
 
@@ -111,18 +100,21 @@ public class Robot{
         BNO055IMUUtil.remapZAxis(imu, AxisDirection.NEG_X);
 
         drive = new SampleMecanumDrive(hardwareMap);
+
         }
 
-        slide1=hardwareMap.get(DcMotorEx.class,"slide1");
-        slide2=hardwareMap.get(DcMotorEx.class,"slide2");
-        slide1.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-        slide2.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        slide=hardwareMap.get(DcMotorEx.class,"slide");
+        slide.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        linearSlide = new LinearSlide(telemetry, hardwareMap, timer, slide);
 
-        linearSlide = new LinearSlide(telemetry, hardwareMap, timer, slide1, slide2);
-
+        wheels = hardwareMap.get(DcMotorEx.class,"wheels");
         intake = new Intake(telemetry, hardwareMap, timer, wheels);
 
+        drop = hardwareMap.get(Servo.class,"drop");
         airplane = hardwareMap.get(Servo.class,"airplane");
+        delivery = new Delivery(telemetry, hardwareMap, timer, drop, airplane);
+
+
 
 
     }

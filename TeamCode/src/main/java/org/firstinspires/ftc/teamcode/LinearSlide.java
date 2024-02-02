@@ -12,41 +12,20 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class LinearSlide extends Subsystem{
-    private final DcMotorEx slide1;
-    private final DcMotorEx slide2;
-    public LinearSlide(Telemetry telemetry, HardwareMap hardwareMap, ElapsedTime timer, DcMotorEx slide1, DcMotorEx slide2) {
+    private final DcMotorEx slide;
+    public LinearSlide(Telemetry telemetry, HardwareMap hardwareMap, ElapsedTime timer, DcMotorEx slide) {
         super(telemetry, hardwareMap, timer);
-        this.slide1=slide1;
-        this.slide2=slide2;
+        this.slide=slide;
     }
 
-    public void runSlide1(int pos, double power){
-        slide1.setTargetPosition(pos);
-        slide1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        slide1.setPower(power);
+    public void runSlide(int pos, double power){
+        slide.setTargetPosition(pos);
+        slide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        slide.setPower(power);
     }
 
-    public void runSlide2(int pos, double power) {
-        slide2.setTargetPosition(pos);
-        slide2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        slide2.setPower(power);
+    public void resetEncoders(){
+        slide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
-    public int slideIdxToEncoderVal(int idx){
-
-        if(idx==0){
-            return 0;
-        }
-        else if(idx==1){
-            return 1776;
-        }
-        else if(idx==2){
-            return 2900;
-        }
-        else if(idx==3){
-            return 4000;
-        }
-
-        return 0;
-    }
 }
