@@ -87,6 +87,7 @@ public class LM_TeleOp extends LinearOpMode {
             telemetry.addData("Front Right Power: ", frontRightPower);
             telemetry.addData("Back Right Power: ", backRightPower);
             telemetry.addData("Curr Slow Val: ", slow);
+            telemetry.update();
 
             if(Math.abs(gamepad1.left_stick_y)>0.075 || Math.abs(gamepad1.right_stick_y)>0.075){ //Account for potential joystick drift
                 robot.frontLeftM.setPower(frontLeftPower/slow);
