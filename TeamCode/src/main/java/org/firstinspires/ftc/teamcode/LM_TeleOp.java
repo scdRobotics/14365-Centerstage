@@ -62,7 +62,33 @@ public class LM_TeleOp extends LinearOpMode {
             frontRightPower = (y - x - rx) / denominator;
             backRightPower = (y + x - rx) / denominator;
 
-            if(y<0.075 || x<0.0825 || rx<0.075){ //Account for potential joystick drift
+            /*
+            Recall that for a right turn:
+                FRONT LEFT Power Should Be POSITIVE
+                FRONT RIGHT Power Should Be NEGATIVE
+                BACK LEFT Power Should Be POSITIVE
+                FRONT LEFT Power Should Be NEGATIVE
+                ^^ ALL WITHIN EQUAL MAGNITUDES
+
+            TESTING PROCEDURE:
+                1. Hold joystick to the left while robot is on the ground. Observe values
+                    -If all value magnitudes are equal and positive/negative is as expected, AND magnitudes are sufficiently high, likely a build issue (shot motors unable to withstand pressure? idk im not a build guy but smth like that)
+                    -Else, continue
+                2. CONTINUE HOLDING joystick to the left while lifting robot into air. MOTOR POWER VALUES SHOULD NOT VARY. If motors change behavior and spin as expected, it's a build problem.
+
+                IF VALUES at ANY POINT are NOT as expected, there's likely a program OR gamepad issue in play. Observe values, follow the formulas here, and see what the problem may be. Good luck !
+
+                (Also, make sure "slow" is at 1, that could just be causing issues)
+            */
+
+
+            telemetry.addData("Front Left Power: ", frontLeftPower);
+            telemetry.addData("Back Left Power: ", backLeftPower);
+            telemetry.addData("Front Right Power: ", frontRightPower);
+            telemetry.addData("Back Right Power: ", backRightPower);
+            telemetry.addData("Curr Slow Val: ", slow);
+
+            if(Math.abs(gamepad1.left_stick_y)>0.075 || Math.abs(gamepad1.right_stick_y)>0.075){ //Account for potential joystick drift
                 robot.frontLeftM.setPower(frontLeftPower/slow);
                 robot.backLeftM.setPower(backLeftPower/slow);
                 robot.frontRightM.setPower(frontRightPower/slow);
