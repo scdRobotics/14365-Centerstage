@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -36,8 +37,13 @@ public class Robot{
      */
     public Delivery delivery;
     public Intake intake;
-    public Servo drop;
+    public Servo drop1;
+    public Servo drop2;
     public DcMotorEx wheels;
+    public DistanceSensor front;
+    public DistanceSensor left;
+    public DistanceSensor right;
+    public DistanceSensor pixel;
 
     /*
     From linear slide branch
@@ -110,9 +116,15 @@ public class Robot{
         wheels = hardwareMap.get(DcMotorEx.class,"wheels");
         intake = new Intake(telemetry, hardwareMap, timer, wheels);
 
-        drop = hardwareMap.get(Servo.class,"drop");
+        drop1 = hardwareMap.get(Servo.class,"drop1");
+        drop2 = hardwareMap.get(Servo.class, "drop2");
         airplane = hardwareMap.get(Servo.class,"airplane");
-        delivery = new Delivery(telemetry, hardwareMap, timer, drop, airplane);
+        delivery = new Delivery(telemetry, hardwareMap, timer, drop1, drop2, airplane);
+
+        right = hardwareMap.get(DistanceSensor.class, "right");
+        left = hardwareMap.get(DistanceSensor.class, "left");
+        front = hardwareMap.get(DistanceSensor.class, "front");
+        pixel = hardwareMap.get(DistanceSensor.class, "pixel");
 
 
 

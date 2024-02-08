@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
-@TeleOp(name = "DeliveryTeleOp", group = "TeleOp")
+@TeleOp(name = "DriveTeleop", group = "TeleOp")
 public class DriveTeleop extends LinearOpMode{
     @Override
     public void runOpMode() {

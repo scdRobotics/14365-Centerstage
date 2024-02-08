@@ -164,6 +164,8 @@ public class LM_TeleOp extends LinearOpMode {
 
             if(gamepad1.left_bumper){ //Rudimentary implementation, may need to hold down bumper until airplane is expelled
                 robot.delivery.useAirplane();
+            } else {
+                robot.delivery.resetPlane();
             }
             //NOTE: No return servo pos, because once airplane is launched, no reason to reset servo
 
