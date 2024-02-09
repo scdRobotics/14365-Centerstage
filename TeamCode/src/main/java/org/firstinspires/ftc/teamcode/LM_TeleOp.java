@@ -21,6 +21,7 @@ public class LM_TeleOp extends LinearOpMode {
 
         double slow = 1;
         double slidePos = 0;
+        double targetSlidePos = 0;
 
         double y = 0;
         double x = 0;
@@ -87,6 +88,7 @@ public class LM_TeleOp extends LinearOpMode {
             telemetry.addData("Front Right Power: ", frontRightPower);
             telemetry.addData("Back Right Power: ", backRightPower);
             telemetry.addData("Curr Slow Val: ", slow);
+            telemetry.addData("Slider Encoder Position: ", robot.slide.getCurrentPosition());
             telemetry.update();
 
             if(Math.abs(gamepad1.left_stick_y)>0.075 || Math.abs(gamepad1.right_stick_y)>0.075){ //Account for potential joystick drift
@@ -133,6 +135,14 @@ public class LM_TeleOp extends LinearOpMode {
             }
             else{
                 robot.delivery.closeDrop();
+            }
+
+            if(gamepad2.dpad_up) {
+                targetSlidePos = robot.slide.getCurrentPosition();
+            }
+
+            if(gamepad2.dpad_down) {
+                slidePos = targetSlidePos;
             }
 
 
