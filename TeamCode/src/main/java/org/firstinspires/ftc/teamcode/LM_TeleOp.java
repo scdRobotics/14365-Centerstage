@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 @TeleOp(name="LM_TeleOp", group="TeleOp")
 public class LM_TeleOp extends LinearOpMode {
 
-    final double SLIDE_POW = 0.25;
+    final double SLIDE_POW = 0.5; //was 0.25
 
     final int MAX_SLIDE_POS = 1000; //Placeholder; find real value with LM_Slide_Pos_TeleOp
 
@@ -115,17 +115,30 @@ public class LM_TeleOp extends LinearOpMode {
             //NOTE: Currently manual only. Look at last year's "slidePosIdx" for an example implementation
 
             if(gamepad2.left_stick_y>0.1 || gamepad2.left_stick_y<-0.1){
-                slidePos += -gamepad2.left_stick_y*10;
+                slidePos += -gamepad2.left_stick_y; //was *10
                 slidePos = (int) slidePos;
+            } /* else {
+                slidePos = robot.slide.getCurrentPosition();
             }
+              */
 
             if(gamepad2.y) { //Reset button
                 slidePos = 0;
-                robot.linearSlide.resetEncoders();
+//                robot.linearSlide.resetEncoders();
             }
 
-            if(slidePos>MAX_SLIDE_POS && !gamepad2.b) { //gamepad2.b is a manual override. BE CAREFUL USING THIS
-                slidePos = MAX_SLIDE_POS;
+//            if(slidePos>MAX_SLIDE_POS && !gamepad2.b) { //gamepad2.b is a manual override. BE CAREFUL USING THIS
+//                slidePos = MAX_SLIDE_POS;
+//            }
+
+
+
+            if(gamepad2.dpad_up) {
+                targetSlidePos = robot.slide.getCurrentPosition();
+            }
+
+            if(gamepad2.dpad_down) {
+                slidePos = targetSlidePos;
             }
 
             robot.linearSlide.runSlide((int) slidePos, SLIDE_POW);
@@ -137,13 +150,6 @@ public class LM_TeleOp extends LinearOpMode {
                 robot.delivery.closeDrop();
             }
 
-            if(gamepad2.dpad_up) {
-                targetSlidePos = robot.slide.getCurrentPosition();
-            }
-
-            if(gamepad2.dpad_down) {
-                slidePos = targetSlidePos;
-            }
 
 
 
