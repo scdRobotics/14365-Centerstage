@@ -57,10 +57,10 @@ public class LM_TeleOp extends LinearOpMode {
             }
 
             denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
-            frontLeftPower = (y + x + rx) / denominator;
-            backLeftPower = (y - x + rx) / denominator;
-            frontRightPower = (y - x - rx) / denominator;
-            backRightPower = (y + x - rx) / denominator;
+            frontLeftPower = (y - x + rx) / denominator;
+            backLeftPower = (y + x + rx) / denominator;
+            frontRightPower = (y + x - rx) / denominator;
+            backRightPower = (y - x - rx) / denominator;
 
             /*
             Recall that for a right turn:
@@ -89,7 +89,7 @@ public class LM_TeleOp extends LinearOpMode {
             telemetry.addData("Curr Slow Val: ", slow);
             telemetry.update();
 
-            if(Math.abs(gamepad1.left_stick_y)>0.075 || Math.abs(gamepad1.right_stick_y)>0.075){ //Account for potential joystick drift
+            if(Math.abs(gamepad1.left_stick_y)>0.075 || Math.abs(gamepad1.right_stick_y)>0.075 || Math.abs(gamepad1.right_stick_x) > 0.075 || Math.abs(gamepad1.left_stick_x) > 0.075){ //Account for potential joystick drift
                 robot.frontLeftM.setPower(frontLeftPower/slow);
                 robot.backLeftM.setPower(backLeftPower/slow);
                 robot.frontRightM.setPower(frontRightPower/slow);
