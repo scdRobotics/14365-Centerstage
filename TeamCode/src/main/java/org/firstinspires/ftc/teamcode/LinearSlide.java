@@ -25,7 +25,8 @@ public class LinearSlide extends Subsystem{
     }
 
     public void resetEncoders(){
-        slide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        slide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
     }
 
 }

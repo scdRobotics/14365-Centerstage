@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 @TeleOp(name="LM_TeleOp", group="TeleOp")
 public class LM_TeleOp extends LinearOpMode {
 
-    final double SLIDE_POW = 0.25;
+    final double SLIDE_POW = 0.5; //was 0.25
 
     final int MAX_SLIDE_POS = 1000; //Placeholder; find real value with LM_Slide_Pos_TeleOp
 
@@ -21,6 +21,7 @@ public class LM_TeleOp extends LinearOpMode {
 
         double slow = 1;
         double slidePos = 0;
+        double targetSlidePos = 0;
 
         double y = 0;
         double x = 0;
@@ -87,6 +88,7 @@ public class LM_TeleOp extends LinearOpMode {
             telemetry.addData("Front Right Power: ", frontRightPower);
             telemetry.addData("Back Right Power: ", backRightPower);
             telemetry.addData("Curr Slow Val: ", slow);
+            telemetry.addData("Slider Encoder Position: ", robot.slide.getCurrentPosition());
             telemetry.update();
 
             if(Math.abs(gamepad1.left_stick_y)>0.075 || Math.abs(gamepad1.right_stick_y)>0.075 || Math.abs(gamepad1.right_stick_x) > 0.075 || Math.abs(gamepad1.left_stick_x) > 0.075){ //Account for potential joystick drift
@@ -113,17 +115,30 @@ public class LM_TeleOp extends LinearOpMode {
             //NOTE: Currently manual only. Look at last year's "slidePosIdx" for an example implementation
 
             if(gamepad2.left_stick_y>0.1 || gamepad2.left_stick_y<-0.1){
-                slidePos += -gamepad2.left_stick_y*10;
+                slidePos += -gamepad2.left_stick_y; //was *10
                 slidePos = (int) slidePos;
+            } /* else {
+                slidePos = robot.slide.getCurrentPosition();
             }
+              */
 
             if(gamepad2.y) { //Reset button
                 slidePos = 0;
-                robot.linearSlide.resetEncoders();
+//                robot.linearSlide.resetEncoders();
             }
 
-            if(slidePos>MAX_SLIDE_POS && !gamepad2.b) { //gamepad2.b is a manual override. BE CAREFUL USING THIS
-                slidePos = MAX_SLIDE_POS;
+//            if(slidePos>MAX_SLIDE_POS && !gamepad2.b) { //gamepad2.b is a manual override. BE CAREFUL USING THIS
+//                slidePos = MAX_SLIDE_POS;
+//            }
+
+
+
+            if(gamepad2.dpad_up) {
+                targetSlidePos = robot.slide.getCurrentPosition();
+            }
+
+            if(gamepad2.dpad_down) {
+                slidePos = targetSlidePos;
             }
 
             robot.linearSlide.runSlide((int) slidePos, SLIDE_POW);
@@ -134,6 +149,7 @@ public class LM_TeleOp extends LinearOpMode {
             else{
                 robot.delivery.closeDrop();
             }
+
 
 
 
@@ -164,6 +180,8 @@ public class LM_TeleOp extends LinearOpMode {
 
             if(gamepad1.left_bumper){ //Rudimentary implementation, may need to hold down bumper until airplane is expelled
                 robot.delivery.useAirplane();
+            } else {
+                robot.delivery.resetPlane();
             }
             //NOTE: No return servo pos, because once airplane is launched, no reason to reset servo
 
