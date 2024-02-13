@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.motors.RevRoboticsCoreHexMotor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -58,6 +59,7 @@ public class Robot{
     public DcMotorEx frontRightM; //Front Right Drive Motor initial declaration
     public DcMotorEx backLeftM; //Back Left Drive Motor initial declaration
     public DcMotorEx backRightM; //Back Right Drive Motor initial declaration
+    public RevRoboticsCoreHexMotor shove;
     public Servo airplane;
 
 

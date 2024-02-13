@@ -43,12 +43,12 @@ public class Delivery extends Subsystem{
     }
 
     public void useAirplane(){
-        airplane.setPosition(-1); //Will require proper tuning/placement of servo
+        airplane.setPosition(0); //Will require proper tuning/placement of servo
 
     }
 
     public void resetPlane() {
-        airplane.setPosition(0);
+        airplane.setPosition(1);
     }
 
 

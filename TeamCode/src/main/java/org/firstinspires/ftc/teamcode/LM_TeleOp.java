@@ -7,12 +7,15 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 @TeleOp(name="LM_TeleOp", group="TeleOp")
 public class LM_TeleOp extends LinearOpMode {
 
-    final double SLIDE_POW = 0.5; //was 0.25
+    final double SLIDE_POW = 0.75; //was 0.25
 
     final int MAX_SLIDE_POS = 1000; //Placeholder; find real value with LM_Slide_Pos_TeleOp
 
-    final double INTAKE_SPEED = 0.8;
-    final double INTAKE_REVERSE_SPEED = -0.3;
+    final double INTAKE_SPEED = -0.8;
+
+    boolean plane = false;
+
+    boolean reset = false;
 
     @Override
     public void runOpMode(){
@@ -58,10 +61,10 @@ public class LM_TeleOp extends LinearOpMode {
             }
 
             denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
-            frontLeftPower = (y - x + rx) / denominator;
-            backLeftPower = (y + x + rx) / denominator;
-            frontRightPower = (y + x - rx) / denominator;
-            backRightPower = (y - x - rx) / denominator;
+            frontLeftPower = (y + x + rx) / denominator;
+            backLeftPower = (y - x + rx) / denominator;
+            frontRightPower = (y - x - rx) / denominator;
+            backRightPower = (y + x - rx) / denominator;
 
             /*
             Recall that for a right turn:
@@ -89,6 +92,7 @@ public class LM_TeleOp extends LinearOpMode {
             telemetry.addData("Back Right Power: ", backRightPower);
             telemetry.addData("Curr Slow Val: ", slow);
             telemetry.addData("Slider Encoder Position: ", robot.slide.getCurrentPosition());
+            telemetry.addData("Plane", robot.airplane.getPosition());
             telemetry.update();
 
             if(Math.abs(gamepad1.left_stick_y)>0.075 || Math.abs(gamepad1.right_stick_y)>0.075 || Math.abs(gamepad1.right_stick_x) > 0.075 || Math.abs(gamepad1.left_stick_x) > 0.075){ //Account for potential joystick drift
@@ -115,7 +119,7 @@ public class LM_TeleOp extends LinearOpMode {
             //NOTE: Currently manual only. Look at last year's "slidePosIdx" for an example implementation
 
             if(gamepad2.left_stick_y>0.1 || gamepad2.left_stick_y<-0.1){
-                slidePos += -gamepad2.left_stick_y; //was *10
+                slidePos += -gamepad2.left_stick_y*5; //was *10
                 slidePos = (int) slidePos;
             } /* else {
                 slidePos = robot.slide.getCurrentPosition();
@@ -124,6 +128,7 @@ public class LM_TeleOp extends LinearOpMode {
 
             if(gamepad2.y) { //Reset button
                 slidePos = 0;
+                reset = true;
 //                robot.linearSlide.resetEncoders();
             }
 
@@ -141,7 +146,17 @@ public class LM_TeleOp extends LinearOpMode {
                 slidePos = targetSlidePos;
             }
 
+            if(reset && robot.slide.getCurrentPosition() < 1000 && robot.slide.getCurrentPosition() > 706) {
+
+            }
+
+            if(reset && robot.slide.getCurrentPosition() < 3) {
+                reset = false;
+            }
+
             robot.linearSlide.runSlide((int) slidePos, SLIDE_POW);
+
+
 
             if(gamepad2.a){
                 robot.delivery.dropPixel();
@@ -164,7 +179,7 @@ public class LM_TeleOp extends LinearOpMode {
                 robot.intake.runIntake(INTAKE_SPEED);
             }
             else if(gamepad1.right_bumper){
-                robot.intake.runIntake(-INTAKE_REVERSE_SPEED);
+                robot.intake.runIntake(-INTAKE_SPEED);
             }
             else{
                 robot.intake.runIntake(0);
