@@ -4,7 +4,8 @@
 //import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 //import com.qualcomm.robotcore.util.ElapsedTime;
 //
-//@TeleOp(name = "LinearSlideTeleop", group = "TeleOp")
+//@TeleOp(name = "LinearSlideTeleOp", group = "TeleOp")
+
 //
 //public class LinearSlideTeleop extends LinearOpMode {
 //    @Override
