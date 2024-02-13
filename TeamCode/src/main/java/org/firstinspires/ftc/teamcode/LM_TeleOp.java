@@ -93,6 +93,7 @@ public class LM_TeleOp extends LinearOpMode {
             telemetry.addData("Curr Slow Val: ", slow);
             telemetry.addData("Slider Encoder Position: ", robot.slide.getCurrentPosition());
             telemetry.addData("Plane", robot.airplane.getPosition());
+            telemetry.addData("Shove: ", robot.shove.getCurrentPosition());
             telemetry.update();
 
             if(Math.abs(gamepad1.left_stick_y)>0.075 || Math.abs(gamepad1.right_stick_y)>0.075 || Math.abs(gamepad1.right_stick_x) > 0.075 || Math.abs(gamepad1.left_stick_x) > 0.075){ //Account for potential joystick drift
@@ -163,6 +164,10 @@ public class LM_TeleOp extends LinearOpMode {
             }
             else{
                 robot.delivery.closeDrop();
+            }
+
+            if(gamepad2.b) {
+                robot.shoveSystem.runShove(10, 0.3);
             }
 
 

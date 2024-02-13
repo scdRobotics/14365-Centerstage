@@ -61,7 +61,7 @@ public class Robot{
     public DcMotorEx frontRightM; //Front Right Drive Motor initial declaration
     public DcMotorEx backLeftM; //Back Left Drive Motor initial declaration
     public DcMotorEx backRightM; //Back Right Drive Motor initial declaration
-    public RevRoboticsCoreHexMotor shove;
+    public DcMotor shove;
     public Servo airplane;
 
 
@@ -116,6 +116,8 @@ public class Robot{
         slide=hardwareMap.get(DcMotorEx.class,"slide");
         slide.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         linearSlide = new LinearSlide(telemetry, hardwareMap, timer, slide);
+
+        shoveSystem = new ShoveSystem(telemetry, hardwareMap, timer, shove);
 
         wheels = hardwareMap.get(DcMotorEx.class,"wheels");
         intake = new Intake(telemetry, hardwareMap, timer, wheels);
