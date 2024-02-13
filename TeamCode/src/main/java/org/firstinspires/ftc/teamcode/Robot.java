@@ -52,6 +52,8 @@ public class Robot{
     public LinearSlide linearSlide;
     public DcMotorEx slide;
 
+    public ShoveSystem shoveSystem;
+
 
 
 
@@ -122,6 +124,8 @@ public class Robot{
         drop2 = hardwareMap.get(Servo.class, "drop2");
         airplane = hardwareMap.get(Servo.class,"airplane");
         delivery = new Delivery(telemetry, hardwareMap, timer, drop1, drop2, airplane);
+
+
 
         right = hardwareMap.get(DistanceSensor.class, "right");
         left = hardwareMap.get(DistanceSensor.class, "left");
