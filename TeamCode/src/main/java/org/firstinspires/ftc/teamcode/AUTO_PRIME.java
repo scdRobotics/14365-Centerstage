@@ -20,7 +20,7 @@ public class AUTO_PRIME extends LinearOpMode {
      */
     void initAuto(){
         ElapsedTime timer = new ElapsedTime();
-        this.robot = new Robot(this, hardwareMap, telemetry, timer, false);
+        this.robot = new Robot(this, hardwareMap, telemetry, timer, true);
     }
 
     @Override

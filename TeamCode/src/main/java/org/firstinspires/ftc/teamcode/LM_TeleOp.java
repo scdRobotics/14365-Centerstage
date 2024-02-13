@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 @TeleOp(name="LM_TeleOp", group="TeleOp")
 public class LM_TeleOp extends LinearOpMode {
 
-    final double SLIDE_POW = 0.5; //was 0.25
+    final double SLIDE_POW = 0.75; //was 0.25
 
     final int MAX_SLIDE_POS = 1000; //Placeholder; find real value with LM_Slide_Pos_TeleOp
 
