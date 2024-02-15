@@ -117,6 +117,8 @@ public class Robot{
         slide.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         linearSlide = new LinearSlide(telemetry, hardwareMap, timer, slide);
 
+        shove=hardwareMap.get(DcMotor.class,"shove");
+        shove.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         shoveSystem = new ShoveSystem(telemetry, hardwareMap, timer, shove);
 
         wheels = hardwareMap.get(DcMotorEx.class,"wheels");

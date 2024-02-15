@@ -15,7 +15,25 @@ public class LM_TeleOp extends LinearOpMode {
 
     boolean plane = false;
 
-    boolean reset = false;
+
+    //boolean reset = false;
+
+    enum STATE {
+        normal,
+        retract;
+    }
+    STATE state = STATE.normal;
+   //state currentState;
+
+
+    public void switchState(STATE state){
+
+    }
+
+
+
+
+
 
     @Override
     public void runOpMode(){
@@ -25,6 +43,8 @@ public class LM_TeleOp extends LinearOpMode {
         double slow = 1;
         double slidePos = 0;
         double targetSlidePos = 0;
+
+        double tarShovePos = 0;
 
         double y = 0;
         double x = 0;
@@ -93,7 +113,8 @@ public class LM_TeleOp extends LinearOpMode {
             telemetry.addData("Curr Slow Val: ", slow);
             telemetry.addData("Slider Encoder Position: ", robot.slide.getCurrentPosition());
             telemetry.addData("Plane", robot.airplane.getPosition());
-            telemetry.addData("Shove: ", robot.shove.getCurrentPosition());
+            telemetry.addData("Slide pos: ", slidePos);
+            //telemetry.addData("Reset: ", reset);
             telemetry.update();
 
             if(Math.abs(gamepad1.left_stick_y)>0.075 || Math.abs(gamepad1.right_stick_y)>0.075 || Math.abs(gamepad1.right_stick_x) > 0.075 || Math.abs(gamepad1.left_stick_x) > 0.075){ //Account for potential joystick drift
@@ -119,23 +140,44 @@ public class LM_TeleOp extends LinearOpMode {
 
             //NOTE: Currently manual only. Look at last year's "slidePosIdx" for an example implementation
 
-            if(gamepad2.left_stick_y>0.1 || gamepad2.left_stick_y<-0.1){
-                slidePos += -gamepad2.left_stick_y*5; //was *10
-                slidePos = (int) slidePos;
-            } /* else {
-                slidePos = robot.slide.getCurrentPosition();
-            }
-              */
-
-            if(gamepad2.y) { //Reset button
-                slidePos = 0;
-                reset = true;
-//                robot.linearSlide.resetEncoders();
-            }
 
 //            if(slidePos>MAX_SLIDE_POS && !gamepad2.b) { //gamepad2.b is a manual override. BE CAREFUL USING THIS
 //                slidePos = MAX_SLIDE_POS;
 //            }
+
+
+
+
+
+
+            //////SLIDE CODE
+
+            switch(state) {
+                case retract:
+                    if(robot.slide.getCurrentPosition() < 1100 && robot.slide.getCurrentPosition() > 706) {
+//                robot.shoveSystem.runShove(-100, 1);
+                        tarShovePos = -100;
+                    }
+                    if(robot.slide.getCurrentPosition() < 3) {
+                        state = state.normal;
+                    }
+                    break;
+                case normal:
+                    tarShovePos = -3;
+                    if(gamepad2.left_stick_y>0.1 || gamepad2.left_stick_y<-0.1){
+                        slidePos += -gamepad2.left_stick_y*5; //was *10
+                        slidePos = (int) slidePos;
+                    }
+                    if(gamepad2.y) { //Reset button
+                        slidePos = 0;
+                        state = state.retract;
+//                robot.linearSlide.resetEncoders();
+                    }
+                    break;
+                default:
+                    // code block
+            }
+
 
 
 
@@ -147,13 +189,6 @@ public class LM_TeleOp extends LinearOpMode {
                 slidePos = targetSlidePos;
             }
 
-            if(reset && robot.slide.getCurrentPosition() < 1000 && robot.slide.getCurrentPosition() > 706) {
-
-            }
-
-            if(reset && robot.slide.getCurrentPosition() < 3) {
-                reset = false;
-            }
 
             robot.linearSlide.runSlide((int) slidePos, SLIDE_POW);
 
@@ -166,10 +201,13 @@ public class LM_TeleOp extends LinearOpMode {
                 robot.delivery.closeDrop();
             }
 
-            if(gamepad2.b) {
-                robot.shoveSystem.runShove(10, 0.3);
+
+            if(gamepad2.right_stick_y>0.1 || gamepad2.right_stick_y<-0.1){
+               tarShovePos = robot.shove.getCurrentPosition() + -gamepad2.right_stick_y*5; //was *10
+                tarShovePos = (int) tarShovePos;
             }
 
+            robot.shoveSystem.runShove((int) tarShovePos, 0.9);
 
 
 
@@ -180,10 +218,10 @@ public class LM_TeleOp extends LinearOpMode {
 
              */
 
-            if(gamepad1.right_trigger>0.1){
+            if(gamepad2.right_trigger>0.1){
                 robot.intake.runIntake(INTAKE_SPEED);
             }
-            else if(gamepad1.right_bumper){
+            else if(gamepad2.right_bumper){
                 robot.intake.runIntake(-INTAKE_SPEED);
             }
             else{
