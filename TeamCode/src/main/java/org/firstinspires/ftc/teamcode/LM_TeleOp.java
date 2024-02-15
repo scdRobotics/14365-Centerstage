@@ -219,10 +219,10 @@ public class LM_TeleOp extends LinearOpMode {
              */
 
             if(gamepad2.right_trigger>0.1){
-                robot.intake.runIntake(INTAKE_SPEED);
+                robot.intake.runIntake(-INTAKE_SPEED);
             }
             else if(gamepad2.right_bumper){
-                robot.intake.runIntake(-INTAKE_SPEED);
+                robot.intake.runIntake(INTAKE_SPEED);
             }
             else{
                 robot.intake.runIntake(0);
