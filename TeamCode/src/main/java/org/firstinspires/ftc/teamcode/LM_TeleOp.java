@@ -2,6 +2,10 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 @TeleOp(name="LM_TeleOp", group="TeleOp")
@@ -16,6 +20,7 @@ public class LM_TeleOp extends LinearOpMode {
     boolean plane = false;
 
 
+
     //boolean reset = false;
 
     enum STATE {
@@ -25,13 +30,11 @@ public class LM_TeleOp extends LinearOpMode {
     STATE state = STATE.normal;
    //state currentState;
 
-
+    /* Proly not gonna need this
     public void switchState(STATE state){
 
     }
-
-
-
+    */
 
 
 
@@ -55,6 +58,31 @@ public class LM_TeleOp extends LinearOpMode {
         double backLeftPower = 0;
         double frontRightPower = 0;
         double backRightPower = 0;
+
+        //making copy of robot.xxx
+
+        Delivery delivery = robot.delivery;
+        Intake intake = robot.intake;
+        Servo drop1 = robot.drop1;
+        Servo drop2 = robot.drop2;
+        DcMotorEx wheels = robot.wheels;
+        DistanceSensor front = robot.front;
+        DistanceSensor left = robot.left;
+        DistanceSensor right = robot.right;
+        DistanceSensor pixel = robot.pixel;
+
+
+        LinearSlide linearSlide = robot.linearSlide;
+        DcMotorEx slide = robot.slide;
+
+        ShoveSystem shoveSystem = robot.shoveSystem;
+
+        DcMotorEx frontLeftM = robot.frontLeftM; //Front Left Drive Motor initial declaration
+        DcMotorEx frontRightM = robot.frontRightM; //Front Right Drive Motor initial declaration
+        DcMotorEx backLeftM = robot.backLeftM; //Back Left Drive Motor initial declaration
+        DcMotorEx backRightM = robot.backRightM; //Back Right Drive Motor initial declaration
+        DcMotor shove = robot.shove;
+        Servo airplane = robot.airplane;
 
         waitForStart();
 
