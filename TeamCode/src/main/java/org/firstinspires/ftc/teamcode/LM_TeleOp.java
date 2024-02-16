@@ -139,23 +139,23 @@ public class LM_TeleOp extends LinearOpMode {
             telemetry.addData("Front Right Power: ", frontRightPower);
             telemetry.addData("Back Right Power: ", backRightPower);
             telemetry.addData("Curr Slow Val: ", slow);
-            telemetry.addData("Slider Encoder Position: ", robot.slide.getCurrentPosition());
-            telemetry.addData("Plane", robot.airplane.getPosition());
+            telemetry.addData("Slider Encoder Position: ", slide.getCurrentPosition());
+            telemetry.addData("Plane", airplane.getPosition());
             telemetry.addData("Slide pos: ", slidePos);
             //telemetry.addData("Reset: ", reset);
             telemetry.update();
 
             if(Math.abs(gamepad1.left_stick_y)>0.075 || Math.abs(gamepad1.right_stick_y)>0.075 || Math.abs(gamepad1.right_stick_x) > 0.075 || Math.abs(gamepad1.left_stick_x) > 0.075){ //Account for potential joystick drift
-                robot.frontLeftM.setPower(frontLeftPower/slow);
-                robot.backLeftM.setPower(backLeftPower/slow);
-                robot.frontRightM.setPower(frontRightPower/slow);
-                robot.backRightM.setPower(backRightPower/slow);
+                frontLeftM.setPower(frontLeftPower/slow);
+                backLeftM.setPower(backLeftPower/slow);
+                frontRightM.setPower(frontRightPower/slow);
+                backRightM.setPower(backRightPower/slow);
             }
             else{
-                robot.frontLeftM.setPower(0);
-                robot.frontRightM.setPower(0);
-                robot.backLeftM.setPower(0);
-                robot.backRightM.setPower(0);
+                frontLeftM.setPower(0);
+                frontRightM.setPower(0);
+                backLeftM.setPower(0);
+                backRightM.setPower(0);
             }
 
 
@@ -182,11 +182,11 @@ public class LM_TeleOp extends LinearOpMode {
 
             switch(state) {
                 case retract:
-                    if(robot.slide.getCurrentPosition() < 1100 && robot.slide.getCurrentPosition() > 706) {
-//                robot.shoveSystem.runShove(-100, 1);
+                    if(slide.getCurrentPosition() < 1100 && slide.getCurrentPosition() > 706) {
+//                shoveSystem.runShove(-100, 1);
                         tarShovePos = -100;
                     }
-                    if(robot.slide.getCurrentPosition() < 3) {
+                    if(slide.getCurrentPosition() < 3) {
                         state = state.normal;
                     }
                     break;
@@ -199,7 +199,7 @@ public class LM_TeleOp extends LinearOpMode {
                     if(gamepad2.y) { //Reset button
                         slidePos = 0;
                         state = state.retract;
-//                robot.linearSlide.resetEncoders();
+//                linearSlide.resetEncoders();
                     }
                     break;
                 default:
@@ -210,7 +210,7 @@ public class LM_TeleOp extends LinearOpMode {
 
 
             if(gamepad2.dpad_up) {
-                targetSlidePos = robot.slide.getCurrentPosition();
+                targetSlidePos = slide.getCurrentPosition();
             }
 
             if(gamepad2.dpad_down) {
@@ -218,24 +218,24 @@ public class LM_TeleOp extends LinearOpMode {
             }
 
 
-            robot.linearSlide.runSlide((int) slidePos, SLIDE_POW);
+            linearSlide.runSlide((int) slidePos, SLIDE_POW);
 
 
 
             if(gamepad2.a){
-                robot.delivery.dropPixel();
+                delivery.dropPixel();
             }
             else{
-                robot.delivery.closeDrop();
+                delivery.closeDrop();
             }
 
 
             if(gamepad2.right_stick_y>0.1 || gamepad2.right_stick_y<-0.1){
-               tarShovePos = robot.shove.getCurrentPosition() + -gamepad2.right_stick_y*5; //was *10
+               tarShovePos = shove.getCurrentPosition() + -gamepad2.right_stick_y*5; //was *10
                 tarShovePos = (int) tarShovePos;
             }
 
-            robot.shoveSystem.runShove((int) tarShovePos, 0.9);
+            shoveSystem.runShove((int) tarShovePos, 0.9);
 
 
 
@@ -247,13 +247,13 @@ public class LM_TeleOp extends LinearOpMode {
              */
 
             if(gamepad2.right_trigger>0.1){
-                robot.intake.runIntake(-INTAKE_SPEED);
+                intake.runIntake(-INTAKE_SPEED);
             }
             else if(gamepad2.right_bumper){
-                robot.intake.runIntake(INTAKE_SPEED);
+                intake.runIntake(INTAKE_SPEED);
             }
             else{
-                robot.intake.runIntake(0);
+                intake.runIntake(0);
             }
 
 
@@ -265,9 +265,9 @@ public class LM_TeleOp extends LinearOpMode {
              */
 
             if(gamepad1.left_bumper){ //Rudimentary implementation, may need to hold down bumper until airplane is expelled
-                robot.delivery.useAirplane();
+                delivery.useAirplane();
             } else {
-                robot.delivery.resetPlane();
+                delivery.resetPlane();
             }
             //NOTE: No return servo pos, because once airplane is launched, no reason to reset servo
 
