@@ -25,7 +25,8 @@ public class LM_TeleOp extends LinearOpMode {
 
     enum STATE {
         normal,
-        retract;
+        shoving,
+        retracting;
     }
     STATE state = STATE.normal;
    //state currentState;
@@ -181,14 +182,17 @@ public class LM_TeleOp extends LinearOpMode {
             //////SLIDE CODE
 
             switch(state) {
-                case retract:
+                case retracting:
                     if(slide.getCurrentPosition() < 1100 && slide.getCurrentPosition() > 706) {
 //                shoveSystem.runShove(-100, 1);
                         tarShovePos = -100;
+
                     }
                     if(slide.getCurrentPosition() < 3) {
-                        state = state.normal;
+                        state = STATE.normal;
                     }
+
+                    linearSlide.runSlide((int) slidePos, SLIDE_POW);
                     break;
                 case normal:
                     tarShovePos = -3;
@@ -198,10 +202,17 @@ public class LM_TeleOp extends LinearOpMode {
                     }
                     if(gamepad2.y) { //Reset button
                         slidePos = 0;
-                        state = state.retract;
+                        state = STATE.retracting;
 //                linearSlide.resetEncoders();
                     }
+
+                    linearSlide.runSlide((int) slidePos, SLIDE_POW);
                     break;
+                case shoving:
+                    if(shove.getCurrentPosition() > -5){
+                        state = STATE.normal;
+                    }
+                    shoveSystem.runShove((int) tarShovePos, 0.9);
                 default:
                     // code block
             }
@@ -218,7 +229,7 @@ public class LM_TeleOp extends LinearOpMode {
             }
 
 
-            linearSlide.runSlide((int) slidePos, SLIDE_POW);
+            //linearSlide.runSlide((int) slidePos, SLIDE_POW);
 
 
 
@@ -235,7 +246,7 @@ public class LM_TeleOp extends LinearOpMode {
                 tarShovePos = (int) tarShovePos;
             }
 
-            shoveSystem.runShove((int) tarShovePos, 0.9);
+            //shoveSystem.runShove((int) tarShovePos, 0.9);
 
 
 
