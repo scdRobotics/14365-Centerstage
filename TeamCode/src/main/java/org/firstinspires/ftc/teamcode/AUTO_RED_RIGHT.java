@@ -17,6 +17,10 @@ public class AUTO_RED_RIGHT extends AUTO_PRIME {
         Operational Program! :D
          */
 
+        robot.pause(TIME_WAIT);
+
+        encoderForward(0.3, 20);
+        encoderStrafeRight(0.3, 20);
     }
 
 }
