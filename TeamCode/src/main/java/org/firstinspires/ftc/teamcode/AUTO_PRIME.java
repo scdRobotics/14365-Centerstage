@@ -163,7 +163,7 @@ public class  AUTO_PRIME extends LinearOpMode {
 
     public void encoderStrafeLeft(double pow, int encVal){
         pow = Math.abs(pow);
-        robot.frontLeftM.setTargetPosition(-encVal);
+        robot.frontLeftM.setTargetPosition(encVal);
         robot.frontRightM.setTargetPosition(encVal);
         robot.backLeftM.setTargetPosition(encVal);
         robot.backRightM.setTargetPosition(-encVal);

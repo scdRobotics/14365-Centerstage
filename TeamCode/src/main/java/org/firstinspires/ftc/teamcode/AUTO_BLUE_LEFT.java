@@ -17,10 +17,9 @@ public class AUTO_BLUE_LEFT extends AUTO_PRIME {
         Operational Program! :D
          */
 
-        robot.pause(TIME_WAIT);
+        //robot.pause(TIME_WAIT);
 
-        encoderForward(0.3, 20);
-        encoderStrafeLeft(0.3, 20);
+        encoderStrafeLeft(0.3, 2);
     }
 
 }
