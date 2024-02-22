@@ -13,13 +13,15 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 @TeleOp(name="LM_TeleOp", group="TeleOp")
 public class LM_TeleOp extends LinearOpMode {
 
+    /*
+       Setting constants
+     */
+
     final double SLIDE_POW = 0.75; //was 0.25
 
     final int MAX_SLIDE_POS = 1000; //Placeholder; find real value with LM_Slide_Pos_TeleOp
 
     final double INTAKE_SPEED = -0.8;
-
-    //shove constants
     final int SHOVE_CLOSE = 0;
     final int SHOVE_OPEN = 78;
 
@@ -28,8 +30,9 @@ public class LM_TeleOp extends LinearOpMode {
     boolean plane = false;
 
 
-
-    //boolean reset = false;
+    /*
+        Declaring the enum for the statemachine
+     */
 
     enum STATE {
         normal,
@@ -37,19 +40,21 @@ public class LM_TeleOp extends LinearOpMode {
         retracting,
         retracting2;
     }
+
+    //Setting the initial state
+
     STATE state = STATE.normal;
-   //state currentState;
-
-    /* Proly not gonna need this
-    public void switchState(STATE state){
-
-    }
-    */
 
 
 
     @Override
     public void runOpMode(){
+
+        /*
+             Setup and declarations
+        */
+
+
         ElapsedTime timer = new ElapsedTime();
         Robot robot = new Robot(this,hardwareMap,telemetry,timer,true);
 
@@ -69,7 +74,6 @@ public class LM_TeleOp extends LinearOpMode {
         double frontRightPower = 0;
         double backRightPower = 0;
 
-        //making copy of robot.xxx
 
         Delivery delivery = robot.delivery;
         Intake intake = robot.intake;
@@ -94,6 +98,8 @@ public class LM_TeleOp extends LinearOpMode {
         DcMotorEx backRightM = robot.backRightM; //Back Right Drive Motor initial declaration
         DcMotor shove = robot.shove;
         Servo airplane = robot.airplane;
+
+
 
         waitForStart();
 
@@ -157,6 +163,10 @@ public class LM_TeleOp extends LinearOpMode {
             //telemetry.addData("Reset: ", reset);
             telemetry.update();
 
+            /*
+                Making the robot move with the joystick
+             */
+
             if(Math.abs(gamepad1.left_stick_y)>0.075 || Math.abs(gamepad1.right_stick_y)>0.075 || Math.abs(gamepad1.right_stick_x) > 0.075 || Math.abs(gamepad1.left_stick_x) > 0.075){ //Account for potential joystick drift
                 frontLeftM.setPower(frontLeftPower/slow);
                 backLeftM.setPower(backLeftPower/slow);
@@ -181,79 +191,98 @@ public class LM_TeleOp extends LinearOpMode {
             //NOTE: Currently manual only. Look at last year's "slidePosIdx" for an example implementation
 
 
-//            if(slidePos>MAX_SLIDE_POS && !gamepad2.b) { //gamepad2.b is a manual override. BE CAREFUL USING THIS
-//                slidePos = MAX_SLIDE_POS;
-//            }
-
-
-
-
-
-
             //////SLIDE CODE
+
+            /*
+                State machine
+             */
 
             switch(state) {
                 //Shove: close: -100; open: -3
                 case retracting:
-                    //if the slide is at the position where we should start shoving it, stop retracting,
-                    // (not really relative now) when the shove is already retracted run or slide not in the range yet retract to position 0 probably
-                    if(slide.getCurrentPosition() < 1100) { // might need to change the value where the shove start shoving
-                        //                shoveSystem.runShove(-100, 1);
-                        tarShovePos = SHOVE_CLOSE; //close
-                        state = STATE.shoving;
-                    }
+                                   //if the slide is at the position where we should start shoving it, stop retracting,
+                                   // (not really relative now) when the shove is already retracted run or slide not in the range yet retract to position 0 probably
+                                   if(slide.getCurrentPosition() < 1100) { // might need to change the value where the shove start shoving
+                                       //shoveSystem.runShove(-100, 1);
+                                       tarShovePos = SHOVE_CLOSE; //close
+                                       state = STATE.shoving;
+                                   }
 
-                    if(slide.getCurrentPosition() < 3) { // not gonna happen, just for safety, since it's the first stage of retracting
-                        state = STATE.normal; // when it fully retracts
-                        tarShovePos = SHOVE_OPEN; // opening the shove
-                    }
+                                   if(slide.getCurrentPosition() < 3) { // not gonna happen, just for safety, since it's the first stage of retracting
+                                       state = STATE.normal; // when it fully retracts
+                                       tarShovePos = SHOVE_OPEN; // opening the shove
+                                   }
 
-                    //running the motors
-                    shoveSystem.runShove((int) tarShovePos, 0.9);
-                    linearSlide.runSlide((int) slidePos, SLIDE_POW);
-                    break;
-                case retracting2: //just retracting all the way
+                                   //running the motors
+                                   shoveSystem.runShove((int) tarShovePos, 0.9);
+                                   linearSlide.runSlide((int) slidePos, SLIDE_POW);
+                                   break;
 
-                    if(slide.getCurrentPosition() < 3) {
-                        state = STATE.normal; // when it fully retracts
-                        tarShovePos = SHOVE_OPEN; // opening the shove
-                    }
 
-                case normal: //manual
-                    if(gamepad2.left_stick_y>0.1 || gamepad2.left_stick_y<-0.1){
-                        slidePos += -gamepad2.left_stick_y*5; //was *10
-                        slidePos = (int) slidePos;
-                    }
-                    if(gamepad2.right_stick_y>0.1 || gamepad2.right_stick_y<-0.1){
-                        tarShovePos = shove.getCurrentPosition() + -gamepad2.right_stick_y*5; //was *10
-                        tarShovePos = (int) tarShovePos;
-                    }
-                    if(gamepad2.y) { //Reset button
-                        slidePos = 0;
-                        // state = STATE.retracting; // don't know why it's here
-//                linearSlide.resetEncoders();
-                    }
 
-                    if(gamepad2.y) { //retract trigger, idk the tolerance or threshold put 0.2
-                        targetSlidePos = 0;
-                        state = STATE.retracting;
-                    }
+                               case retracting2: //just retracting all the way
 
-                    //running the motors
-                    shoveSystem.runShove((int) tarShovePos, 0.9);
-                    linearSlide.runSlide((int) slidePos, SLIDE_POW);
-                    break;
+                                   if(slide.getCurrentPosition() < 3) {
+                                       state = STATE.normal; // when it fully retracts
+                                       tarShovePos = SHOVE_OPEN; // opening the shove
+                                   }
+
+
+
+
+
+                case normal: //driver controlled state
+                                if(gamepad2.left_stick_y>0.1 || gamepad2.left_stick_y<-0.1){
+                                    slidePos += -gamepad2.left_stick_y*5; //was *10
+                                    slidePos = (int) slidePos;
+                                }
+
+
+                                if(gamepad2.right_stick_y>0.1 || gamepad2.right_stick_y<-0.1){
+                                    tarShovePos = shove.getCurrentPosition() + -gamepad2.right_stick_y*5; //was *10
+                                    tarShovePos = (int) tarShovePos;
+                                }
+
+
+                                if(gamepad2.y) { //Reset button
+                                    slidePos = 0;
+                                    // state = STATE.retracting; // don't know why it's here
+//                            linearSlide.resetEncoders();
+                                }
+
+                                if(gamepad2.y) { //retract trigger, idk the tolerance or threshold put 0.2
+                                    targetSlidePos = 0;
+                                    state = STATE.retracting;
+                                }
+
+                                //running the motors
+                                shoveSystem.runShove((int) tarShovePos, 0.9);
+                                linearSlide.runSlide((int) slidePos, SLIDE_POW);
+                                break;
+
+
+
+
+
+
                 case shoving:
-                    if(shove.getCurrentPosition() > -5){ // when close switch to 2nd stage of retracting
-                        state = STATE.retracting2;
-                    }
-
-                    //running the motors
-                    shoveSystem.runShove((int) tarShovePos, 0.9);
-                    linearSlide.runSlide((int) slidePos, SLIDE_POW);
+                                if(shove.getCurrentPosition() > -5){ // when close switch to 2nd stage of retracting
+                                    state = STATE.retracting2;
+                                }
+                                //running the motors
+                                shoveSystem.runShove((int) tarShovePos, 0.9);
+                                linearSlide.runSlide((int) slidePos, SLIDE_POW);
                 default:
                     // code block
             }
+
+            //State Machine ends
+
+
+
+
+
+
 
             //state machine reset
             if(gamepad2.left_stick_y>0.1 || gamepad2.left_stick_y<-0.1 || gamepad2.right_stick_y>0.1 || gamepad2.right_stick_y<-0.1) {
@@ -262,11 +291,14 @@ public class LM_TeleOp extends LinearOpMode {
 
             //end of reset
 
+
+            //Setting target position for the slide
             if(gamepad2.dpad_up) {
                 targetSlidePos = slide.getCurrentPosition();
                 state = STATE.normal; // resetting the state during retracting
             }
 
+            //Moving the slide to the target position
             if(gamepad2.dpad_down) {
                 slidePos = targetSlidePos;
             }
@@ -282,6 +314,7 @@ public class LM_TeleOp extends LinearOpMode {
             else{
                 delivery.closeDrop();
             }
+
 
 
             if(gamepad2.right_stick_y>0.1 || gamepad2.right_stick_y<-0.1){
@@ -300,10 +333,11 @@ public class LM_TeleOp extends LinearOpMode {
             INTAKE CODE
 
              */
-
+            //Forwards
             if(gamepad2.right_trigger>0.1){
                 intake.runIntake(-INTAKE_SPEED);
             }
+            //Backwards
             else if(gamepad2.right_bumper){
                 intake.runIntake(INTAKE_SPEED);
             }
@@ -326,8 +360,10 @@ public class LM_TeleOp extends LinearOpMode {
             }
             //NOTE: No return servo pos, because once airplane is launched, no reason to reset servo
 
-            if(elevatorDist.getDistance(DistanceUnit.INCH) < ELEVATOR_PIXEL) {
 
+            //Move lift when the pixel is in position
+            if(elevatorDist.getDistance(DistanceUnit.INCH) < ELEVATOR_PIXEL) {
+                robot.intake.liftElevator();
             }
 
 

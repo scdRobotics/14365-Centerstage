@@ -22,4 +22,11 @@ public class Intake extends Subsystem{
         wheels.setPower(power);
     }
 
+    public void liftElevator() {
+        elevator.setPosition(1);
+    }
+    public void lowerElevator() {
+        elevator.setPosition(0);
+    }
+
 }
