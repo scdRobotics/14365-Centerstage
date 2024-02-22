@@ -63,6 +63,7 @@ public class Robot{
     public DcMotorEx backRightM; //Back Right Drive Motor initial declaration
     public DcMotor shove;
     public Servo airplane;
+    public Servo elevator;
 
 
     /*
@@ -149,11 +150,12 @@ public class Robot{
         shoveSystem = new ShoveSystem(telemetry, hardwareMap, timer, shove);
 
         wheels = hardwareMap.get(DcMotorEx.class,"wheels");
-        intake = new Intake(telemetry, hardwareMap, timer, wheels);
+        intake = new Intake(telemetry, hardwareMap, timer, wheels, elevator);
 
         drop1 = hardwareMap.get(Servo.class,"drop1");
         drop2 = hardwareMap.get(Servo.class, "drop2");
         airplane = hardwareMap.get(Servo.class,"airplane");
+        elevator = hardwareMap.get(Servo.class, "elevator");
         delivery = new Delivery(telemetry, hardwareMap, timer, drop1, drop2, airplane);
 
 

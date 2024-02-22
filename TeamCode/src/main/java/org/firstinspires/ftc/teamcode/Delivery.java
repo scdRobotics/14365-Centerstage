@@ -22,7 +22,6 @@ public class Delivery extends Subsystem{
     public Delivery(Telemetry telemetry, HardwareMap hardwareMap, ElapsedTime timer, Servo drop1, Servo drop2, Servo airplane) {
         super(telemetry, hardwareMap, timer);
         this.drop1 = drop1;
-
         this.drop2 = drop2;
         this.airplane = airplane;
     }
