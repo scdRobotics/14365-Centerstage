@@ -8,6 +8,8 @@ import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+
 @TeleOp(name="LM_TeleOp", group="TeleOp")
 public class LM_TeleOp extends LinearOpMode {
 
@@ -20,6 +22,8 @@ public class LM_TeleOp extends LinearOpMode {
     //shove constants
     final int SHOVE_CLOSE = 0;
     final int SHOVE_OPEN = 78;
+
+    final double ELEVATOR_PIXEL = 0;
 
     boolean plane = false;
 
@@ -76,6 +80,7 @@ public class LM_TeleOp extends LinearOpMode {
         DistanceSensor left = robot.left;
         DistanceSensor right = robot.right;
         DistanceSensor pixel = robot.pixel;
+        DistanceSensor elevatorDist = robot.elevatorDist;
 
 
         LinearSlide linearSlide = robot.linearSlide;
@@ -321,6 +326,9 @@ public class LM_TeleOp extends LinearOpMode {
             }
             //NOTE: No return servo pos, because once airplane is launched, no reason to reset servo
 
+            if(elevatorDist.getDistance(DistanceUnit.INCH) < ELEVATOR_PIXEL) {
+
+            }
 
 
 

@@ -45,6 +45,7 @@ public class Robot{
     public DistanceSensor left;
     public DistanceSensor right;
     public DistanceSensor pixel;
+    public DistanceSensor elevatorDist;
 
     /*
     From linear slide branch
@@ -164,6 +165,7 @@ public class Robot{
         left = hardwareMap.get(DistanceSensor.class, "left");
         front = hardwareMap.get(DistanceSensor.class, "front");
         pixel = hardwareMap.get(DistanceSensor.class, "pixel");
+        elevatorDist = hardwareMap.get(DistanceSensor.class, "elevatorDist");
 
 
 
