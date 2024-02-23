@@ -45,6 +45,13 @@ public class LM_TeleOp extends LinearOpMode {
 
     STATE state = STATE.normal;
 
+    enum PIXEL_STATE {
+        initial,
+        lifting,
+        lowering
+    }
+
+    PIXEL_STATE pixel_state = PIXEL_STATE.initial;
 
 
     @Override
@@ -160,6 +167,7 @@ public class LM_TeleOp extends LinearOpMode {
             telemetry.addData("Shove Pos: ", shove.getCurrentPosition());
             telemetry.addData("Plane", airplane.getPosition());
             telemetry.addData("Slide pos: ", slidePos);
+            telemetry.addData("ElevatorPos: ", robot.elevator.getPosition());
             //telemetry.addData("Reset: ", reset);
             telemetry.update();
 
@@ -361,9 +369,21 @@ public class LM_TeleOp extends LinearOpMode {
             //NOTE: No return servo pos, because once airplane is launched, no reason to reset servo
 
 
-            //Move lift when the pixel is in position
-            if(elevatorDist.getDistance(DistanceUnit.INCH) < ELEVATOR_PIXEL) {
-                robot.intake.liftElevator();
+
+
+            //State machine for lifting the pixel
+
+            switch(pixel_state) {
+                case initial:
+                    if(elevatorDist.getDistance(DistanceUnit.INCH) < ELEVATOR_PIXEL) {
+                        pixel_state = PIXEL_STATE.lifting;
+                    }
+                case lifting:
+                    robot.intake.liftElevator();
+                case lowering:
+                    robot.intake.lowerElevator();
+                default:
+
             }
 
 
