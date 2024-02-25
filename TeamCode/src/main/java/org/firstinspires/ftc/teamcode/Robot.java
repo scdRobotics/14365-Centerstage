@@ -65,6 +65,7 @@ public class Robot{
     public DcMotor shove;
     public Servo airplane;
     public Servo elevator;
+    public Servo dropAuto;
 
 
     /*
@@ -103,41 +104,40 @@ public class Robot{
 
         } else {
 
-        /*drive = new SampleMecanumDrive(hardwareMap);
+        drive = new SampleMecanumDrive(hardwareMap);
 
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
         imu.initialize(parameters);
         BNO055IMUUtil.remapZAxis(imu, AxisDirection.NEG_X);
-
-        drive = new SampleMecanumDrive(hardwareMap);*/
-
-            int TOLERANCE = 15;
-
-            frontRightM = hardwareMap.get(DcMotorEx.class, "frontRight");
-            frontLeftM = hardwareMap.get(DcMotorEx.class, "frontLeft");
-            backLeftM = hardwareMap.get(DcMotorEx.class, "backLeft");
-            backRightM = hardwareMap.get(DcMotorEx.class, "backRight");
-
-            frontLeftM.setDirection(DcMotorSimple.Direction.REVERSE);
-            backLeftM.setDirection(DcMotorSimple.Direction.REVERSE);
-
-            frontLeftM.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //Set run mode of front left motor to use power, NOT encoders
-            frontRightM.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //Set run mode of front right motor to use power, NOT encoders
-            backLeftM.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //Set run mode of back left motor to use power, NOT encoders
-            backRightM.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //Set run mode of back right motor to use power, NOT encoders
-
-            frontRightM.setTargetPositionTolerance(TOLERANCE);
-            frontLeftM.setTargetPositionTolerance(TOLERANCE);
-            backLeftM.setTargetPositionTolerance(TOLERANCE);
-            backRightM.setTargetPositionTolerance(TOLERANCE);
-
-            frontLeftM.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            frontRightM.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            backLeftM.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            backRightM.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
+//
+//
+//            int TOLERANCE = 15;
+//
+//            frontRightM = hardwareMap.get(DcMotorEx.class, "frontRight");
+//            frontLeftM = hardwareMap.get(DcMotorEx.class, "frontLeft");
+//            backLeftM = hardwareMap.get(DcMotorEx.class, "backLeft");
+//            backRightM = hardwareMap.get(DcMotorEx.class, "backRight");
+//
+//            frontLeftM.setDirection(DcMotorSimple.Direction.REVERSE);
+//            backLeftM.setDirection(DcMotorSimple.Direction.REVERSE);
+//
+//            frontLeftM.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //Set run mode of front left motor to use power, NOT encoders
+//            frontRightM.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //Set run mode of front right motor to use power, NOT encoders
+//            backLeftM.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //Set run mode of back left motor to use power, NOT encoders
+//            backRightM.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //Set run mode of back right motor to use power, NOT encoders
+//
+//            frontRightM.setTargetPositionTolerance(TOLERANCE);
+//            frontLeftM.setTargetPositionTolerance(TOLERANCE);
+//            backLeftM.setTargetPositionTolerance(TOLERANCE);
+//            backRightM.setTargetPositionTolerance(TOLERANCE);
+//
+//            frontLeftM.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//            frontRightM.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//            backLeftM.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//            backRightM.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//
 
 
         }
@@ -149,15 +149,16 @@ public class Robot{
         shove=hardwareMap.get(DcMotor.class,"shove");
         shove.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         shoveSystem = new ShoveSystem(telemetry, hardwareMap, timer, shove);
-
+        elevator = hardwareMap.get(Servo.class, "elevator");
         wheels = hardwareMap.get(DcMotorEx.class,"wheels");
         intake = new Intake(telemetry, hardwareMap, timer, wheels, elevator);
 
         drop1 = hardwareMap.get(Servo.class,"drop1");
         drop2 = hardwareMap.get(Servo.class, "drop2");
+        dropAuto = hardwareMap.get(Servo.class, "dropAuto");
         airplane = hardwareMap.get(Servo.class,"airplane");
-        elevator = hardwareMap.get(Servo.class, "elevator");
-        delivery = new Delivery(telemetry, hardwareMap, timer, drop1, drop2, airplane);
+
+        delivery = new Delivery(telemetry, hardwareMap, timer, drop1, drop2, dropAuto, airplane);
 
 
 

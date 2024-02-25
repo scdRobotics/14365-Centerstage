@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 @TeleOp(name="LM_Slide_Pos_TeleOp", group="TeleOp")
 public class LM_Slide_Pos_TeleOp extends LinearOpMode {
 
-    final double SLIDE_POW = 0.25;
+    final double SLIDE_POW = 0.75;
 
     //final int MAX_SLIDE_POS = 1000; //Placeholder; find real value with LM_Slide_Pos_TeleOp
 
@@ -31,8 +31,9 @@ public class LM_Slide_Pos_TeleOp extends LinearOpMode {
 
              */
 
+
             if(gamepad2.left_stick_y>0.1 || gamepad2.left_stick_y<-0.1) {
-                slidePos += -gamepad2.left_stick_y * 10;
+                slidePos += -gamepad2.left_stick_y * 5;
                 slidePos = (int) slidePos;
             }
 
@@ -44,6 +45,7 @@ public class LM_Slide_Pos_TeleOp extends LinearOpMode {
             robot.linearSlide.runSlide((int) slidePos, SLIDE_POW);
 
             telemetry.addData("Curr Slide Pos: ", slidePos);
+            telemetry.addData("Left Y: ", gamepad2.left_stick_y);
             telemetry.update();
 
         }

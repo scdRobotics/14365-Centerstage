@@ -11,6 +11,7 @@ public class Delivery extends Subsystem{
     private final Servo drop1;
     private final Servo drop2;
     private final Servo airplane;
+    private final Servo dropAuto;
 
     //Placeholders; find real values with LM_Drop_Pos_TeleOp
     private final double DROP1_POS = 1;
@@ -19,10 +20,11 @@ public class Delivery extends Subsystem{
     private final double DROP2_POS = 0;
     private final double CLOSE2_POS = 1;
 
-    public Delivery(Telemetry telemetry, HardwareMap hardwareMap, ElapsedTime timer, Servo drop1, Servo drop2, Servo airplane) {
+    public Delivery(Telemetry telemetry, HardwareMap hardwareMap, ElapsedTime timer, Servo drop1, Servo drop2, Servo dropAuto, Servo airplane) {
         super(telemetry, hardwareMap, timer);
         this.drop1 = drop1;
         this.drop2 = drop2;
+        this.dropAuto = dropAuto;
         this.airplane = airplane;
     }
 
@@ -44,6 +46,13 @@ public class Delivery extends Subsystem{
     public void useAirplane(){
         airplane.setPosition(0); //Will require proper tuning/placement of servo
 
+    }
+
+    public void openDropAuto() {
+        dropAuto.setPosition(1);
+    }
+    public void closeDropAuto() {
+        dropAuto.setPosition(0);
     }
 
     public void resetPlane() {

@@ -31,6 +31,10 @@ public class  AUTO_PRIME extends LinearOpMode {
 
     public final double MOTOR_POWER = 0.3;
 
+    int START_X = 0;
+    double START_Y = 0;
+    double START_ANG = 0;
+
     //Use robot.pause(TIME_WAIT) at beginning of program after wait for start, to not interfere with alliance partner :D
     public final double TIME_WAIT = 17;
 
@@ -41,7 +45,7 @@ public class  AUTO_PRIME extends LinearOpMode {
      */
     void initAuto(){
         ElapsedTime timer = new ElapsedTime();
-        this.robot = new Robot(this, hardwareMap, telemetry, timer, true);
+        this.robot = new Robot(this, hardwareMap, telemetry, timer, false);
     }
 
     @Override

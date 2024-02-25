@@ -106,7 +106,7 @@ public class LM_TeleOp extends LinearOpMode {
         DcMotor shove = robot.shove;
         Servo airplane = robot.airplane;
 
-
+        robot.linearSlide.resetEncoders();
 
         waitForStart();
 
@@ -168,7 +168,8 @@ public class LM_TeleOp extends LinearOpMode {
             telemetry.addData("Plane", airplane.getPosition());
             telemetry.addData("Slide pos: ", slidePos);
             telemetry.addData("ElevatorPos: ", robot.elevator.getPosition());
-            //telemetry.addData("Reset: ", reset);
+            telemetry.addData("State: ", state);
+            telemetry.addData("Left Y: ", gamepad2.left_stick_y);
             telemetry.update();
 
             /*
@@ -240,10 +241,10 @@ public class LM_TeleOp extends LinearOpMode {
 
 
                 case normal: //driver controlled state
-                                if(gamepad2.left_stick_y>0.1 || gamepad2.left_stick_y<-0.1){
-                                    slidePos += -gamepad2.left_stick_y*5; //was *10
-                                    slidePos = (int) slidePos;
-                                }
+                                 if(gamepad2.left_stick_y>0.1 || gamepad2.left_stick_y<-0.1) {
+                                     slidePos += -gamepad2.left_stick_y * 5;
+                                     slidePos = (int) slidePos;
+                                  }
 
 
                                 if(gamepad2.right_stick_y>0.1 || gamepad2.right_stick_y<-0.1){
@@ -264,8 +265,8 @@ public class LM_TeleOp extends LinearOpMode {
                                 }
 
                                 //running the motors
-                                shoveSystem.runShove((int) tarShovePos, 0.9);
-                                linearSlide.runSlide((int) slidePos, SLIDE_POW);
+                                //shoveSystem.runShove((int) tarShovePos, 0.9);
+                                robot.linearSlide.runSlide((int) slidePos, SLIDE_POW);
                                 break;
 
 
@@ -312,7 +313,8 @@ public class LM_TeleOp extends LinearOpMode {
             }
 
 
-            //linearSlide.runSlide((int) slidePos, SLIDE_POW);
+
+            linearSlide.runSlide((int) slidePos, SLIDE_POW);
 
 
 
@@ -331,7 +333,7 @@ public class LM_TeleOp extends LinearOpMode {
                 state = STATE.normal; // resetting the state during retracting
             }
 
-            //shoveSystem.runShove((int) tarShovePos, 0.9);
+            shoveSystem.runShove((int) tarShovePos, 0.9);
 
 
 
@@ -375,15 +377,25 @@ public class LM_TeleOp extends LinearOpMode {
 
             switch(pixel_state) {
                 case initial:
-                    if(elevatorDist.getDistance(DistanceUnit.INCH) < ELEVATOR_PIXEL) {
-                        pixel_state = PIXEL_STATE.lifting;
-                    }
+//                    if(elevatorDist.getDistance(DistanceUnit.INCH) < ELEVATOR_PIXEL) {
+//                        pixel_state = PIXEL_STATE.lifting;
+//                    }
+                    break;
                 case lifting:
                     robot.intake.liftElevator();
+                    break;
                 case lowering:
                     robot.intake.lowerElevator();
+                    break;
                 default:
 
+            }
+
+            if(gamepad2.b) {
+                robot.delivery.openDropAuto();
+            } else
+            {
+                robot.delivery.closeDropAuto();
             }
 
 
