@@ -25,6 +25,11 @@ public class ShoveSystem extends Subsystem{
         shove.setPower(power);
     }
 
+    public void resetEncoders(){
+        shove.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+    }
+
 
 
 }
