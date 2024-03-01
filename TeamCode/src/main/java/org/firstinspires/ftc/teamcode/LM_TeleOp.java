@@ -22,7 +22,7 @@ public class LM_TeleOp extends LinearOpMode {
     final int MAX_SLIDE_POS = 1000; //Placeholder; find real value with LM_Slide_Pos_TeleOp
 
     final double INTAKE_SPEED = -0.8;
-    final int SHOVE_CLOSE = -100;
+    final int SHOVE_CLOSE = -89;
     final int SHOVE_OPEN = 78;
 
     final double ELEVATOR_PIXEL = 0;
