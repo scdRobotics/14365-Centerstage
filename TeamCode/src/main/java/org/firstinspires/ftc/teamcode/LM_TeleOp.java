@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
@@ -21,9 +22,8 @@ public class LM_TeleOp extends LinearOpMode {
 
     final int MAX_SLIDE_POS = 1000; //Placeholder; find real value with LM_Slide_Pos_TeleOp
 
-    final double INTAKE_SPEED = -0.8;
-    final int SHOVE_CLOSE = -89;
-    final int SHOVE_OPEN = 78;
+    final double INTAKE_SPEED = 0.8;
+
 
     final double ELEVATOR_PIXEL = 0;
 
@@ -69,11 +69,13 @@ public class LM_TeleOp extends LinearOpMode {
         double slidePos = 0;
         double targetSlidePos = 0;
 
-        double tarShovePos = 0;
+
 
         double y = 0;
         double x = 0;
         double rx = 0;
+
+        double mag = 0;
 
         double denominator = 0;
         double frontLeftPower = 0;
@@ -86,28 +88,29 @@ public class LM_TeleOp extends LinearOpMode {
         Intake intake = robot.intake;
         Servo drop1 = robot.drop1;
         Servo drop2 = robot.drop2;
+        CRServo hang = robot.hang;
         DcMotorEx wheels = robot.wheels;
         DistanceSensor front = robot.front;
         DistanceSensor left = robot.left;
         DistanceSensor right = robot.right;
         DistanceSensor pixel = robot.pixel;
-        DistanceSensor elevatorDist = robot.elevatorDist;
+
 
 
         LinearSlide linearSlide = robot.linearSlide;
         DcMotorEx slide = robot.slide;
 
-        ShoveSystem shoveSystem = robot.shoveSystem;
+
 
         DcMotorEx frontLeftM = robot.frontLeftM; //Front Left Drive Motor initial declaration
         DcMotorEx frontRightM = robot.frontRightM; //Front Right Drive Motor initial declaration
         DcMotorEx backLeftM = robot.backLeftM; //Back Left Drive Motor initial declaration
         DcMotorEx backRightM = robot.backRightM; //Back Right Drive Motor initial declaration
-        DcMotor shove = robot.shove;
+
         Servo airplane = robot.airplane;
 
         robot.linearSlide.resetEncoders();
-        robot.shoveSystem.resetEncoders();
+
 
         waitForStart();
 
@@ -121,7 +124,23 @@ public class LM_TeleOp extends LinearOpMode {
 
             y = gamepad1.left_stick_y;
             x = gamepad1.left_stick_x * 1.1;
+
+            /* Cardinal direction code
+            mag = Math.sqrt(Math.pow(x,2)+Math.pow(y,2));
+
+            if(Math.abs(x) >= Math.abs(y)){
+                y = 0;
+                x = Math.signum(x) * mag;
+            }else {
+                x = 0;
+                y = Math.signum(y) * mag;
+            }
+
+             */
+
             rx = gamepad1.right_stick_x;
+
+
 
             if(gamepad1.left_bumper && (rx>0.1 || rx<-0.1)){
                 slow=3;
@@ -135,9 +154,9 @@ public class LM_TeleOp extends LinearOpMode {
 
             denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
             frontLeftPower = (-y + x + rx) / denominator;
-            backLeftPower = (y - x + rx) / denominator;
+            backLeftPower = (-y - x + rx) / denominator;
             frontRightPower = (-y - x - rx) / denominator;
-            backRightPower = (y + x - rx) / denominator;
+            backRightPower = (-y + x - rx) / denominator;
 
             /*
             Recall that for a right turn:
@@ -164,11 +183,8 @@ public class LM_TeleOp extends LinearOpMode {
             telemetry.addData("Front Right Power: ", frontRightPower);
             telemetry.addData("Back Right Power: ", backRightPower);
             telemetry.addData("Curr Slow Val: ", slow);
-            telemetry.addData("Target Shove Pos: ", tarShovePos);
-            telemetry.addData("Shove Pos: ", shove.getCurrentPosition());
             telemetry.addData("Plane", airplane.getPosition());
             telemetry.addData("Slide pos: ", slidePos);
-            telemetry.addData("ElevatorPos: ", robot.elevator.getPosition());
             telemetry.addData("State: ", state);
             telemetry.addData("Left Y: ", gamepad2.left_stick_y);
             telemetry.update();
@@ -208,38 +224,8 @@ public class LM_TeleOp extends LinearOpMode {
              */
 
             switch(state) {
-                //Shove: close: -100; open: -3
-                case retracting:
-                                   //if the slide is at the position where we should start shoving it, stop retracting,
-                                   // (not really relative now) when the shove is already retracted run or slide not in the range yet retract to position 0 probably
-                                   if(slide.getCurrentPosition() < 976 && slide.getCurrentPosition() > 973) { // might need to change the value where the shove start shoving
-                                       tarShovePos = SHOVE_CLOSE; //close
-                                       state = STATE.shoving;
-                                   }
-
-//                                   if(slide.getCurrentPosition() < 3) { // not gonna happen, just for safety, since it's the first stage of retracting
-//                                       state = STATE.normal; // when it fully retracts
-//                                       tarShovePos = SHOVE_OPEN; // opening the shove
-//                                   }
-
-                                   //running the motors
-                                   shoveSystem.runShove((int) tarShovePos, 0.9);
-                                   linearSlide.runSlide((int) slidePos, SLIDE_POW);
-                                   break;
 
 
-
-
-
-               case retracting2: //just retracting all the way
-                   slidePos = 0;
-                   shoveSystem.runShove((int) tarShovePos, 0.9);
-                   linearSlide.runSlide((int) slidePos, SLIDE_POW);
-               if(slide.getCurrentPosition() < 3) {
-                   state = STATE.normal; // when it fully retracts
-                   tarShovePos = SHOVE_OPEN; // opening the shove
-               }
-               break;
 
 
 
@@ -252,34 +238,12 @@ public class LM_TeleOp extends LinearOpMode {
                                   }
 
 
-                                if(gamepad2.right_stick_y>0.1 || gamepad2.right_stick_y<-0.1){
-                                    tarShovePos += -gamepad2.right_stick_y*10; //was *10
-                                    tarShovePos = (int) tarShovePos;
-                                }
-
-
                                 if(gamepad2.y) { //Reset button
                                     slidePos = 974;
-                                    state = STATE.retracting;
                                 }
 
-                                //running the motors
-                                shoveSystem.runShove((int) tarShovePos, 0.9);
-                                robot.linearSlide.runSlide((int) slidePos, SLIDE_POW);
-                                break;
-
-
-
-
-
-
-                case shoving:
-                                if(shove.getCurrentPosition() > SHOVE_CLOSE - 2 && shove.getCurrentPosition() < SHOVE_CLOSE + 2){ // when close switch to 2nd stage of retracting
-                                    state = STATE.retracting2;
-                                }
-                                //running the motors
-                                shoveSystem.runShove((int) tarShovePos, 0.9);
                                 linearSlide.runSlide((int) slidePos, SLIDE_POW);
+                                break;
                 default:
                     // code block
             }
@@ -317,20 +281,15 @@ public class LM_TeleOp extends LinearOpMode {
 
 
 
-            if(gamepad2.a){
-                delivery.dropPixel();
-            }
-            else{
-                delivery.closeDrop();
-            }
+//            if(gamepad2.a){
+//                delivery.dropPixel();
+//            }
+//            else{
+//                delivery.closeDrop();
+//            }
 
 
 
-            if(gamepad2.right_stick_y>0.1 || gamepad2.right_stick_y<-0.1){
-               tarShovePos = shove.getCurrentPosition() + -gamepad2.right_stick_y*5; //was *10
-                tarShovePos = (int) tarShovePos;
-                state = STATE.normal; // resetting the state during retracting
-            }
 
 
 
@@ -342,12 +301,12 @@ public class LM_TeleOp extends LinearOpMode {
 
              */
             //Forwards
-            if(gamepad2.right_trigger>0.1){
-                intake.runIntake(-INTAKE_SPEED);
+            if(gamepad2.left_trigger>0.1){
+                intake.runIntake(INTAKE_SPEED);
             }
             //Backwards
-            else if(gamepad2.right_bumper){
-                intake.runIntake(INTAKE_SPEED);
+            else if(gamepad2.right_trigger>0.1){
+                intake.runIntake(-INTAKE_SPEED);
             }
             else{
                 intake.runIntake(0);
@@ -369,31 +328,21 @@ public class LM_TeleOp extends LinearOpMode {
             //NOTE: No return servo pos, because once airplane is launched, no reason to reset servo
 
 
-
-
-            //State machine for lifting the pixel
-
-            switch(pixel_state) {
-                case initial:
-//                    if(elevatorDist.getDistance(DistanceUnit.INCH) < ELEVATOR_PIXEL) {
-//                        pixel_state = PIXEL_STATE.lifting;
-//                    }
-                    break;
-                case lifting:
-                    robot.intake.liftElevator();
-                    break;
-                case lowering:
-                    robot.intake.lowerElevator();
-                    break;
-                default:
-
-            }
-
             if(gamepad2.b) {
                 robot.delivery.openDropAuto();
             } else
             {
                 robot.delivery.closeDropAuto();
+            }
+
+            if(gamepad2.a) {
+                robot.hang.setPower(1);
+            }
+            else if(gamepad2.x) {
+                robot.hang.setPower(-1);
+            }
+            else {
+                robot.hang.setPower(0);
             }
 
 

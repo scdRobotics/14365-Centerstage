@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.motors.RevRoboticsCoreHexMotor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -45,7 +46,7 @@ public class Robot{
     public DistanceSensor left;
     public DistanceSensor right;
     public DistanceSensor pixel;
-    public DistanceSensor elevatorDist;
+
 
     /*
     From linear slide branch
@@ -53,7 +54,6 @@ public class Robot{
     public LinearSlide linearSlide;
     public DcMotorEx slide;
 
-    public ShoveSystem shoveSystem;
 
 
 
@@ -62,10 +62,9 @@ public class Robot{
     public DcMotorEx frontRightM; //Front Right Drive Motor initial declaration
     public DcMotorEx backLeftM; //Back Left Drive Motor initial declaration
     public DcMotorEx backRightM; //Back Right Drive Motor initial declaration
-    public DcMotor shove;
     public Servo airplane;
-    public Servo elevator;
     public Servo dropAuto;
+    public CRServo hang;
 
 
     /*
@@ -142,16 +141,13 @@ public class Robot{
 
         }
 
+        hang = hardwareMap.get(CRServo.class, "hang");
         slide=hardwareMap.get(DcMotorEx.class,"slide");
         slide.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         linearSlide = new LinearSlide(telemetry, hardwareMap, timer, slide);
 
-        shove=hardwareMap.get(DcMotor.class,"shove");
-        shove.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        shoveSystem = new ShoveSystem(telemetry, hardwareMap, timer, shove);
-        elevator = hardwareMap.get(Servo.class, "elevator");
-        wheels = hardwareMap.get(DcMotorEx.class,"wheels");
-        intake = new Intake(telemetry, hardwareMap, timer, wheels, elevator);
+        wheels = hardwareMap.get(DcMotorEx.class,"rightOdo");
+        intake = new Intake(telemetry, hardwareMap, timer, wheels);
 
         drop1 = hardwareMap.get(Servo.class,"drop1");
         drop2 = hardwareMap.get(Servo.class, "drop2");
@@ -166,7 +162,6 @@ public class Robot{
         left = hardwareMap.get(DistanceSensor.class, "left");
         front = hardwareMap.get(DistanceSensor.class, "front");
         pixel = hardwareMap.get(DistanceSensor.class, "pixel");
-        elevatorDist = hardwareMap.get(DistanceSensor.class, "elevatorDist");
 
 
 
