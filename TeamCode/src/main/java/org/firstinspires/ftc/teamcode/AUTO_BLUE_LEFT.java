@@ -23,20 +23,29 @@ public class AUTO_BLUE_LEFT extends AUTO_PRIME {
         TrajectorySequence move = robot.drive.trajectorySequenceBuilder(startPose)
 //                .lineTo(new Vector2d(START_X, 10))
 //                .lineTo(new Vector2d(10, 10))
-                .forward(5.7)
+                  .forward(5.8)
                         .build();
 
         TrajectorySequence turn = robot.drive.trajectorySequenceBuilder(turnEST)
-                .back(0.3)
-                .turn(Math.toRadians(18.5)) //was 22.5
-                .forward(8)
+                .back(1.7)
+                .turn(Math.toRadians(18)) //was 22.5
+                .forward(8.8)
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
-                    robot.linearSlide.runSlide(1800, 0.4);
+                    robot.linearSlide.runSlide(2100, 0.4);
 
                 })
                 .waitSeconds(3)
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     robot.delivery.dropPixel();
+                })
+                .waitSeconds(2)
+                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
+                    robot.delivery.closeDrop();
+                })
+                .waitSeconds(1)
+                .turn(Math.toRadians(5))
+                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
+                    robot.linearSlide.runSlide(200, 0.4);
                 })
                         .build();
 
@@ -46,7 +55,11 @@ public class AUTO_BLUE_LEFT extends AUTO_PRIME {
          */
 
         robot.drive.followTrajectorySequence(move);
-        robot.delivery.openDropAuto();
+        robot.pause(1);
+        telemetry.addData("Auto", robot.dropAuto.getPosition());
+        telemetry.update();
+        robot.delivery.openDropAuto(0);
+        robot.pause(1);
         robot.drive.followTrajectorySequence(turn);
 
         robot.pause(5);

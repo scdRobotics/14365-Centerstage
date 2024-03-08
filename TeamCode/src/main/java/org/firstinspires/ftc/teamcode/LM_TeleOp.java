@@ -329,7 +329,7 @@ public class LM_TeleOp extends LinearOpMode {
 
 
             if(gamepad2.b) {
-                robot.delivery.openDropAuto();
+                robot.delivery.openDropAuto(1);
             } else
             {
                 robot.delivery.closeDropAuto();

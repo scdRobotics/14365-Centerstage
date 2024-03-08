@@ -57,8 +57,8 @@ public class Delivery extends Subsystem{
         hang2.setPower(power);
     }
 
-    public void openDropAuto() {
-        dropAuto.setPosition(1);
+    public void openDropAuto(double pos) {
+        dropAuto.setPosition(pos);
     }
     public void closeDropAuto() {
         dropAuto.setPosition(0);
