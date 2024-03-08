@@ -336,10 +336,10 @@ public class LM_TeleOp extends LinearOpMode {
             }
 
             if(gamepad2.a) {
-                robot.hang.setPower(1);
+                robot.delivery.useHang(1);
             }
             else if(gamepad2.x) {
-                robot.hang.setPower(-1);
+                robot.delivery.useHang(-1);
             }
             else {
                 robot.hang.setPower(0);

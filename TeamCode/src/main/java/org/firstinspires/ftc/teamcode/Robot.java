@@ -65,6 +65,7 @@ public class Robot{
     public Servo airplane;
     public Servo dropAuto;
     public CRServo hang;
+    public CRServo hang2;
 
 
     /*
@@ -142,6 +143,7 @@ public class Robot{
         }
 
         hang = hardwareMap.get(CRServo.class, "hang");
+        hang2 = hardwareMap.get(CRServo.class, "hang2");
         slide=hardwareMap.get(DcMotorEx.class,"slide");
         slide.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         linearSlide = new LinearSlide(telemetry, hardwareMap, timer, slide);
@@ -154,7 +156,7 @@ public class Robot{
         dropAuto = hardwareMap.get(Servo.class, "dropAuto");
         airplane = hardwareMap.get(Servo.class,"airplane");
 
-        delivery = new Delivery(telemetry, hardwareMap, timer, drop1, drop2, dropAuto, airplane);
+        delivery = new Delivery(telemetry, hardwareMap, timer, drop1, drop2, dropAuto, airplane, hang, hang2);
 
 
 

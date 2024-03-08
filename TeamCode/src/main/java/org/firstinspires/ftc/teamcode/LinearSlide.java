@@ -19,7 +19,6 @@ public class LinearSlide extends Subsystem{
     }
 
     public void runSlide(int pos, double power){
-        telemetry.addData("SSSS", "");
         telemetry.update();
         slide.setTargetPosition(pos);
         slide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
